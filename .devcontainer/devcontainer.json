@@ -4,7 +4,8 @@
 			"extensions": [
 				"KamasamaK.vscode-cfml",
 				"ms-azuretools.vscode-docker",
-				"Vue.volar"
+				"Vue.volar",
+				"formulahendry.auto-close-tag"
 			]
 		}
 	}
