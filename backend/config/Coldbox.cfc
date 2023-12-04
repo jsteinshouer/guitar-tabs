@@ -59,7 +59,7 @@ component{
 			controllerDecorator			= "",
 
 			//Error/Exception Handling
-			exceptionHandler		= "BaseHandler.onError",
+			exceptionHandler		= "",
 			onInvalidEvent			= "",
 			customErrorTemplate		= "",
 
