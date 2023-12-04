@@ -11,6 +11,7 @@ services:
         volumes:
             - .:/workspace:cached
             - ./backend:/app
+            - ./.data:/app/.data
             - /app/modules
             - /app/lib
             - /app/coldbox
