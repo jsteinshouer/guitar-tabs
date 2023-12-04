@@ -1,0 +1,24 @@
+{
+    "name": "Tabs Backend",
+    "dockerComposeFile": [
+        "../../docker-compose.yml",
+        "../docker-compose.devcontainer.yml"
+    ],
+    "service": "backend",
+    "workspaceFolder": "/app",
+    "forwardPorts": ["localhost:8080"],
+    "customizations": {
+        "vscode": {
+                "settings": {
+                    "terminal.integrated.shell.linux": "/bin/bash"
+                },
+                // Add the IDs of extensions you want installed when the container is created.
+                "extensions": [
+                    "formulahendry.auto-close-tag",
+                    "kamasamak.vscode-cfml",
+                    "ortus-solutions.vscode-coldbox",
+                    "ortus-solutions.vscode-testbox"
+                ]
+        }
+    }
+}

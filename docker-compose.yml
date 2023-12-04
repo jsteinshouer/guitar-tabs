@@ -1,0 +1,46 @@
+
+services:
+
+    backend:
+        build:
+            context: .
+            target: backend
+        container_name: tabs-backend
+        ports:
+            - 8080:8080
+        volumes:
+            - .:/workspace:cached
+            - ./backend:/app
+            - /app/modules
+            - /app/lib
+            - /app/coldbox
+            - /app/testbox
+        environment:
+            - PORT=8080
+            - ENVIRONMENT=${ENVIRONMENT}
+            - DB_DSN=${DB_DSN}
+            - DB_CLASS=${DB_CLASS}
+            - DB_USER=${DB_USER}
+            - DB_PASSWORD=${DB_PASSWORD}
+            - DB_GRAMMAR=${DB_GRAMMAR}
+            - JWT_SECRET=${JWT_SECRET}
+            - JWT_ISSUER=${JWT_ISSUER}
+            - JWT_EXP_MIN=${JWT_EXP_MIN}
+            - AUTH_COOKIE_NAME=${AUTH_COOKIE_NAME}
+
+    ui:
+        build:
+            context: .
+            target: ui
+        container_name: tabs-ui
+        volumes:
+            - .:/workspace:cached
+            - ./ui:/app
+            - /app/node_modules
+        ports:
+            - 8081:8081
+        links:
+            - backend
+        environment:
+            - CHOKIDAR_USEPOLLING='true'
+            - BACKEND_URL=http://tabs-backend:8080

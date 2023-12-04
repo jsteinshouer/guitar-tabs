@@ -1,0 +1,5 @@
+services:
+    ui:
+        command: /bin/sh -c "while sleep 1000; do :; done"
+    backend:
+        command: /bin/sh -c "while sleep 1000; do :; done"

@@ -1,0 +1,25 @@
+{
+    "name": "Tabs UI",
+    "dockerComposeFile": [
+        "../../docker-compose.yml",
+        "../docker-compose.devcontainer.yml"
+    ],
+    "service": "ui",
+    "workspaceFolder": "/app",
+    "forwardPorts": [
+        "localhost:8081"
+    ],
+    // Set *default* container specific settings.json values on container create.
+    "customizations": {
+        "vscode": {
+                "settings": {
+                    "terminal.integrated.shell.linux": "/bin/zsh"
+                },
+                // Add the IDs of extensions you want installed when the container is created.
+                "extensions": [
+                    "dbaeumer.vscode-eslint",
+                    "johnsoncodehk.volar"
+                ]
+        }
+    }
+}
