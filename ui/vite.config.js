@@ -12,12 +12,12 @@ export default defineConfig(({ command, mode }) => {
       '/api': {
           target: env.BACKEND_URL,
           changeOrigin: true,
-          cookieDomainRewrite: "localhost"
+          cookieDomainRewrite: ""
       },
       '/tests': {
         target: env.BACKEND_URL,
         changeOrigin: true,
-        cookieDomainRewrite: "localhost"
+        cookieDomainRewrite: ""
       }
     }
   }
