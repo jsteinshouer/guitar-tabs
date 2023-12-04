@@ -1,0 +1,12 @@
+{
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"KamasamaK.vscode-cfml",
+				"ms-azuretools.vscode-docker",
+				"Vue.volar"
+			]
+		}
+	}
+    
+}
