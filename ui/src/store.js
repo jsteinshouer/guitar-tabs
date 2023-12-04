@@ -24,6 +24,20 @@ async function authenticate( username, password ) {
     return authResponse;
 }
 
+async function checkAuth() {
+    
+    const response = await fetchHelper.get("/api/echo");
+
+    if ( response.statusCode == 200 ) {
+        state.isLoggedIn = true;
+        await loadTabs()
+    }
+    else {
+        state.isLoggedIn = false;
+    }
+
+}
+
 async function loadTabs() {
     const dataResponse = await fetchHelper.get("/api/tablature");
     state.myTabs = dataResponse.data;
@@ -33,5 +47,6 @@ async function loadTabs() {
 export default {
     state,
     authenticate,
+    checkAuth,
     loadTabs
 };

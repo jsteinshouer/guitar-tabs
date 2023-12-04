@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import store from '../store'
 const router = useRouter()
@@ -8,6 +8,18 @@ const router = useRouter()
 const username = ref('')
 const password = ref('')
 const errorMessage = ref('')
+const showLogin = ref(false)
+
+onMounted( async () => {
+  //Check the server to see if it not a browser reload
+	await store.checkAuth()
+	if ( store.state.isLoggedIn ) {
+		router.push( { path: "/" })
+	}
+	else {
+		showLogin.value = true;
+	}
+})
 async function login() {
 	if ( username.value && password.value ) {
 		await store.authenticate( username.value, password.value )
@@ -27,7 +39,7 @@ async function login() {
 
 <template>
 		<div>
-			<article>
+			<article v-if="showLogin">
 			<hgroup>
 				<h1>Sign in</h1>
 				<h2></h2>
