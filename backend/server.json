@@ -15,5 +15,8 @@
         "http":{
             "port":8080
         }
+    },
+    "scripts": {
+        "onServerStart":"touch /app/.data/empty.txt"
     }
 }
