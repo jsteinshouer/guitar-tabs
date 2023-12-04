@@ -17,6 +17,6 @@
         }
     },
     "scripts": {
-        "onServerStart":"touch /app/.data/empty.txt"
+
     }
 }
