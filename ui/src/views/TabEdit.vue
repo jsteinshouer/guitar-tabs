@@ -1,3 +1,6 @@
 <template>
-    <h1>Tab Edit</h1>
+     <label for="firstname">
+      First name
+      <input type="text" id="firstname" name="firstname" placeholder="First name" required>
+    </label>
 </template>

@@ -23,6 +23,7 @@
                 </ul>
               </details>
             </li> -->
+            <li></li>
           </ul>
         </nav>
       </div>
@@ -38,5 +39,8 @@ const route = useRoute();
 .favicon {
     margin-right: 10px;
     height: 25px;
+}
+nav ul li {
+  padding-right: 20px;
 }
 </style>

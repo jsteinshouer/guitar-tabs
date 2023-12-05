@@ -39,17 +39,54 @@
 @import "@picocss/pico/scss/utilities/accessibility"; // -ms-touch-action, aria-*
 @import "@picocss/pico/scss/utilities/reduce-motion"; // prefers-reduced-motion
 
+
 body {
-    margin-top: 40px;
+    margin-top: 120px;
     line-height : 1.5em;
     background : #393939;
     color : #fff;
-    place-items: initial;
-    align-items: initial;
-    justify-items: initial;
-}
-
-.nav {
+    min-height: 100vh;
+  }
+  
+  a {
+    color : #d0eb55;
+    background : inherit;
+    text-decoration : none;
+  }
+  a:hover, a:active, a:focus {
+    color : #d0eb55;
+    background : inherit;
+    text-decoration : underline;
+  }
+  
+  a.white {
+    color: $white !important;
+  }
+  
+  nav ul li a:hover {
+    text-decoration: none;
+  }
+  
+  // Accent-color
+  progress,
+  [type="checkbox"],
+  [type="radio"],
+  [type="range"] {
+    accent-color: var(--primary);
+  }
+  
+  button, input[type=submit], input[type=button], input[type=reset], [role=button] {
+    color: #fff !important;
+    background-color: #a9bc52 !important;
+    border-color: #9db044 !important;
+    font-weight: bold !important;
+    border: none !important;
+  }
+  .error {
+    color: #{$red-800}
+  }
+  
+  .nav {
     position:fixed; /* fixing the position takes it out of html flow - knows
                      nothing about where to locate itself except by browser
                      coordinates */
@@ -61,10 +98,10 @@ body {
     background-color: #2c2c2c;
     border-color: #1b1b1b;
     border-width: 0 0 1px;
-}
-
-article {
+  }
+  
+  article {
     margin: 10px;
     padding: 5px; 
     background-color: #414141;
-}
+  }

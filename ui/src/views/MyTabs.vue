@@ -26,3 +26,11 @@ const filteredTabs = computed(() => {
        <router-link :to="`/tab/${item.id}`" class="white"> <article>{{ item.title  }}</article></router-link>
     </div>
 </template>
+
+<style scoped>
+    article {
+        width: 60%;
+		margin-left: 20%;
+		padding: 20px;
+    }
+</style>
