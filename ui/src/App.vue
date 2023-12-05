@@ -6,7 +6,7 @@ import Nav from './components/Nav.vue'
 <div>
     <Nav />
     <main class="container-fluid">
-      <router-view></router-view>
+      <router-view :key="$route.fullPath"></router-view>
     </main>
   </div>
 </template>

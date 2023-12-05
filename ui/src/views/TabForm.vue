@@ -3,8 +3,19 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import store from '../store'
 const route = useRoute()
-const tab = ref({})
-tab.value = store.state.myTabs.find( (item) => item.id == route.params.id )
+const tab = ref({
+    title: "",
+    content: ""
+})
+if ( route.params.id ) {
+    tab.value = store.state.myTabs.find( (item) => item.id == route.params.id )
+}
+else {
+    tab.value = {
+        title: "",
+        content: ""
+    }
+}
 </script>
 
 <template>

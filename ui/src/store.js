@@ -6,6 +6,10 @@ let state = reactive({
     myTabs: []
 });
 
+function isLoggedIn() {
+    return state.isLoggedIn;
+}
+
 async function authenticate( username, password ) {
     
     const authResponse = await fetchHelper.post("/api/authorize", {
@@ -48,5 +52,6 @@ export default {
     state,
     authenticate,
     checkAuth,
+    isLoggedIn,
     loadTabs
 };

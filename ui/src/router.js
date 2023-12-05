@@ -3,7 +3,7 @@ import store from './store'
 import MyTabs from './views/MyTabs.vue'
 import Tab from './views/Tab.vue' 
 import Login from './views/Login.vue'
-import TabEdit from './views/TabEdit.vue'
+import TabForm from './views/TabForm.vue'
 
 const routes = [
     {
@@ -17,13 +17,18 @@ const routes = [
         meta: { requiredAuth: false }
     },
     {
+        path: '/new',
+        component: TabForm,
+        meta: { requiredAuth: true }
+    },
+    {
         path: '/tab/:id',
         component: Tab,
         meta: { requiredAuth: true }
     },
     {
         path: '/edit/:id',
-        component: TabEdit,
+        component: TabForm,
         meta: { requiredAuth: true }
     } 
 ]

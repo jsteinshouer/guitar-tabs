@@ -9,9 +9,12 @@
               </router-link>
             </li>
           </ul>
-          <ul>
+          <ul v-if="isLoggedin == true">
             <li v-if="route.params.id">
               <router-link :to="`/edit/${route.params.id}`">Edit</router-link>
+            </li>
+            <li>
+              <router-link to="/new">New</router-link>
             </li>
             <!-- <li>
               <details role="list" dir="rtl">
@@ -31,7 +34,12 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+import store from '../store';
 const route = useRoute();
+const isLoggedin = computed(() => { 
+    return store.isLoggedIn()
+})
 
 </script>
 
