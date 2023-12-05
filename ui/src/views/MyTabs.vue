@@ -19,18 +19,21 @@ const filteredTabs = computed(() => {
 </script>
 
 <template>
-    <div class="container">
+    <div class="myTabs">
         <input type="text" id="search" name="search" placeholder="Search" v-model="searchQuery" />
-    </div>
-    <div v-for="item in filteredTabs">
-       <router-link :to="`/tab/${item.id}`" class="white"> <article>{{ item.title  }}</article></router-link>
+        <div v-for="item in filteredTabs">
+            <router-link :to="`/tab/${item.id}`" class="white"> <article>{{ item.title  }}</article></router-link>
+        </div>
     </div>
 </template>
 
 <style scoped>
-    article {
+    .myTabs {
         width: 60%;
 		margin-left: 20%;
-		padding: 20px;
+    }
+
+    .myTabs article {
+        padding: 20px;
     }
 </style>
