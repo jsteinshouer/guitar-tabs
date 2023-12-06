@@ -21,8 +21,8 @@ component extends="coldbox.system.RestHandler" secured="true" {
 
 
 	/**
-	* Read a
-	*/
+	 * Read a tab
+	 */
 	any function show( event, rc, prc ){
 		var tab = getInstance( "Tab" )
 				.findOrFail( rc.id );
@@ -35,8 +35,8 @@ component extends="coldbox.system.RestHandler" secured="true" {
 	}
 
 	/**
-	* Create a new tablature
-	*/
+	 * Create a new tablature
+	 */
 	any function create( event, rc, prc ){
 
 		var tab = getInstance( "Tab" ).create( {
@@ -50,8 +50,24 @@ component extends="coldbox.system.RestHandler" secured="true" {
 	}
 
 	/**
-	* Delete a tablature record
-	*/
+	 * Update a tab
+	 */
+	any function update( event, rc, prc ){
+
+		var movie =prc.user.tablature()
+			.findOrFail( rc.id )
+			.update( {
+				"title": rc.title,
+				"content": rc.content
+			});
+
+		prc.response.setData( movie.getMemento() );
+		prc.response.setStatusCode( 200 );
+	}
+
+	/**
+	 * Delete a tablature record
+	 */
 	any function delete( event, rc, prc ){
 
 		var tab = getInstance( "Tab" ).findOrFail( rc.id );

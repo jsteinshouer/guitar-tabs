@@ -1,4 +1,4 @@
-/*******************************************************************************
+dockl/*******************************************************************************
 *	Integration Test as BDD (CF10+ or Railo 4.1 Plus)
 *
 *	Extends the integration class: coldbox.system.testing.BaseTestCase
@@ -131,6 +131,36 @@ component extends="BaseIntegrationTest" {
 					expect(	response.getData().id ).toBeGT( 0 );
 					expect(	response.getData().title ).toBe( "Test Tab Title" );
 					expect(	response.getData().content ).toBe( "Some Tab Content" );
+				});
+
+			});
+
+			describe( "PUT /tablature/:id", function(){
+
+				it( "should get a tab", function(){
+					var user = getInstance( "User" ).create(testUser);
+
+					var tab = getInstance( "Tab" ).create( {
+						"title": "My Tab Title",
+						"content": "test content",
+						"userID": user.getID()
+					});
+
+					var event = put( 
+						route = "api/tablature/" & tab.getID(),
+						params = {
+							title = "Change the Title",
+							content = "Some Tab Content"
+						}
+					);
+
+					
+					var response 	= event.getPrivateValue( "response" );
+					expect(	response.getStatusCode() ).toBe( 200 );
+					expect(	response.getData().id ).toBe( tab.getID() );
+					expect(	response.getData().title ).toBe( "Change the Title" );
+					expect(	response.getData().content ).toBe( "Some Tab Content" );
+
 				});
 
 			});
