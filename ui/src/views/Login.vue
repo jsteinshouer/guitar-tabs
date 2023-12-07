@@ -78,8 +78,9 @@ async function login() {
 
 <style scoped>
 	article {
-		width: 60%;
-		margin-left: 20%;
+	max-width: 600px;
+		width: 90%;
+		margin: 0 auto;
 		padding: 20px;
 	}
 </style>
