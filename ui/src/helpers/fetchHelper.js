@@ -1,6 +1,7 @@
 export const fetchHelper = {
     get,
     post,
+    put
 };
 
 function get(url) {
@@ -15,6 +16,16 @@ function get(url) {
 function post(url, body) {
     const requestOptions = {
         method: 'POST',
+        mode: 'same-origin',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(body)
+    };
+    return fetch(url, requestOptions).then(handleResponse)
+}
+
+function put(url, body) {
+    const requestOptions = {
+        method: 'PUT',
         mode: 'same-origin',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(body)

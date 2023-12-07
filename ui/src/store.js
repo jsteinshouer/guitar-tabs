@@ -47,11 +47,34 @@ async function loadTabs() {
     state.myTabs = dataResponse.data;
 }
 
+async function addTab( tab ) {
+    const response = await fetchHelper.post("/api/tablature", {
+        title: tab.title,
+        content: tab.content
+    });
+
+    if ( response.statusCode == 201 ) {
+        await loadTabs()
+    }
+    
+}
+
+async function updateTab( tab ) {
+    const response = await fetchHelper.put(`/api/tablature/${tab.id}`, tab );
+
+    // if ( response.statusCode == 200 ) {
+    //     await loadTabs()
+    // }
+    
+}
+
 
 export default {
     state,
     authenticate,
     checkAuth,
     isLoggedIn,
-    loadTabs
+    loadTabs,
+    addTab,
+    updateTab
 };

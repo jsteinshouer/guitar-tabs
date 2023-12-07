@@ -3,18 +3,26 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import store from '../store'
 const route = useRoute()
+const busy = ref(false)
 const tab = ref({
+    id: 0,
     title: "",
     content: ""
 })
 if ( route.params.id ) {
     tab.value = store.state.myTabs.find( (item) => item.id == route.params.id )
 }
-else {
-    tab.value = {
-        title: "",
-        content: ""
+
+
+async function saveTab() {
+    busy.value = true;
+    if ( tab.value.id == 0 ) {
+        await store.addTab( tab.value );
     }
+    else {
+        await store.updateTab( tab.value );
+    }
+    busy.value = false;
 }
 </script>
 
@@ -28,7 +36,7 @@ else {
             Content
             <textarea name="content" placeholder="Content" rows="15" v-model="tab.content"></textarea>
         </label>
-        <button>Save</button>
+        <button @click.prevent="saveTab" :aria-busy="busy" :disabled="busy">Save</button>
     </div>
 </template>
 
