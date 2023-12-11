@@ -77,6 +77,7 @@ component{
 			JWT_ISSUER = getSystemSetting("JWT_ISSUER"),
 			JWT_EXP_MIN = getSystemSetting("JWT_EXP_MIN"),
 			AUTH_COOKIE_NAME = getSystemSetting("AUTH_COOKIE_NAME"),
+			GENIUS_API_KEY = getSystemSetting("GENIUS_API_KEY"),
 			htmlhelper_js_path = "",
 			htmlhelper_css_path = ""	
 		};

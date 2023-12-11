@@ -28,6 +28,7 @@ services:
             - JWT_ISSUER=${JWT_ISSUER}
             - JWT_EXP_MIN=${JWT_EXP_MIN}
             - AUTH_COOKIE_NAME=${AUTH_COOKIE_NAME}
+            - GENIUS_API_KEY=${GENIUS_API_KEY}
 
     ui:
         build:
