@@ -19,6 +19,7 @@ services:
         environment:
             - PORT=8080
             - ENVIRONMENT=${ENVIRONMENT}
+            - DEBUG_MODE=${DEBUG_MODE}
             - DB_DSN=${DB_DSN}
             - DB_CLASS=${DB_CLASS}
             - DB_USER=${DB_USER}

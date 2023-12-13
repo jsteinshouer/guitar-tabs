@@ -78,15 +78,9 @@ component{
 			JWT_EXP_MIN = getSystemSetting("JWT_EXP_MIN"),
 			AUTH_COOKIE_NAME = getSystemSetting("AUTH_COOKIE_NAME"),
 			GENIUS_API_KEY = getSystemSetting("GENIUS_API_KEY"),
+			DEBUG_MODE = getSystemSetting("DEBUG_MODE", false),
 			htmlhelper_js_path = "",
 			htmlhelper_css_path = ""	
-		};
-
-		// environment settings, create a detectEnvironment() method to detect it yourself.
-		// create a function with the name of the environment so it can be executed if that environment is detected
-		// the value of the environment is a list of regex patterns to match the cgi.http_host.
-		environments = {
-			development = "127\.0\.0\.1"
 		};
 
 		// Module Directives
@@ -110,7 +104,6 @@ component{
 			// Implicit Level Categories
 			info = [ "coldbox.system" ]
 		};
-
 
 		//Layout Settings
 		layoutSettings = {
@@ -162,12 +155,20 @@ component{
 	/**
 	* Development environment
 	*/
+	function detectEnvrionment(){
+		return getSystemSetting( "ENVIRONMENT", "production" );
+	}
+
+	/**
+	* Development environment
+	*/
 	function development(){
 		coldbox.customErrorTemplate = "/coldbox/system/exceptions/Whoops.cfm";
 		coldbox.reinitPassword = "";
 		coldbox.handlerCaching = false;
 		coldbox.handlersIndexAutoReload = true;
 		coldbox.eventCaching = false;
+		coldbox.debugMode = settings.DEBUG_MODE;
 
 	}
 
