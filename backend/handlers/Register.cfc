@@ -1,7 +1,7 @@
 /**
 * My Event Handler Hint
 */
-component extends="coldbox.system.EventHandler"{
+component extends="BaseHandler"{
 
 	property name="userService" inject="users.UserService";
 	property name="securityService" inject="security.SecurityService";

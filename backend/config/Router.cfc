@@ -16,6 +16,12 @@ component{
 				GET: "index" 
 			})
 			.toHandler("Echo");
+		route( "/genius/song/:id")
+			.withNamespace("api")
+			.withAction({
+				GET: "song" 
+			})
+			.toHandler("Genius");
 		route( "/genius")
 			.withNamespace("api")
 			.withAction({

@@ -75,6 +75,7 @@ component extends="BaseIntegrationTest" {
 					expect(	response.getData().id ).toBe( tab.getID() );
 					expect(	response.getData().title ).toBe( "My Tab Title" );
 					expect(	response.getData().content ).toBe( "test content" );
+					expect(	response.getData().songTitle ).toBe( "" );
 
 				});
 
@@ -122,7 +123,8 @@ component extends="BaseIntegrationTest" {
 						route = "api/tablature",
 						params = {
 							title = "Test Tab Title",
-							content = "Some Tab Content"
+							content = "Some Tab Content",
+							songTitle = "A song title"
 						}
 					);
 
@@ -131,6 +133,7 @@ component extends="BaseIntegrationTest" {
 					expect(	response.getData().id ).toBeGT( 0 );
 					expect(	response.getData().title ).toBe( "Test Tab Title" );
 					expect(	response.getData().content ).toBe( "Some Tab Content" );
+					expect(	response.getData().songTitle ).toBe( "A song title" );
 				});
 
 			});
@@ -150,7 +153,12 @@ component extends="BaseIntegrationTest" {
 						route = "api/tablature/" & tab.getID(),
 						params = {
 							title = "Change the Title",
-							content = "Some Tab Content"
+							content = "Some Tab Content",
+							songTitle = "Stonehenge",
+							songThumbnail = "https://t2.genius.com/unsafe/300x300/https:%2F%2Fimages.genius.com%2Fe1b6cf394040da531371536930d2eab5.1000x1000x1.jpg",
+							artist = "Spinal Tap",
+							album = "This is Spinal Tap",
+							geniusMetadata = {id: 12345}
 						}
 					);
 
@@ -160,6 +168,10 @@ component extends="BaseIntegrationTest" {
 					expect(	response.getData().id ).toBe( tab.getID() );
 					expect(	response.getData().title ).toBe( "Change the Title" );
 					expect(	response.getData().content ).toBe( "Some Tab Content" );
+					expect(	response.getData().songTitle ).toBe( "Stonehenge" );
+					expect(	response.getData().artist ).toBe( "Spinal Tap" );
+					expect(	response.getData().album ).toBe( "This is Spinal Tap" );
+					expect(	deserializeJSON(response.getData().geniusMetadata ).id ).toBe( 12345 );
 
 				});
 

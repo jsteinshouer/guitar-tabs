@@ -1,7 +1,7 @@
 /**
  * My RESTFul Event Handler
  */
-component extends="coldbox.system.RestHandler" {
+component extends="BaseHandler" {
 
 	property name="securityService" inject="security.SecurityService";
 

@@ -1,7 +1,7 @@
 /**
 * My RESTFul Event Handler
 */
-component extends="coldbox.system.RestHandler" secured="true" {
+component extends="BaseHandler" secured="true" {
 
 	/**
 	 * Runs before each action
@@ -39,10 +39,25 @@ component extends="coldbox.system.RestHandler" secured="true" {
 	 */
 	any function create( event, rc, prc ){
 
+		event.paramValue("songTitle","");
+		event.paramValue("songThumbnail","");
+		event.paramValue("artist","");
+		event.paramValue("album","");
+		event.paramValue("geniusMetadata","");
+		//Quick sets it to null for an empty string
+		if ( isStruct(rc.geniusMetadata) && structIsEmpty(rc.geniusMetadata) ){
+			rc.geniusMetadata = "";
+		}
+
 		var tab = getInstance( "Tab" ).create( {
 			"title": rc.title,
 			"content": rc.content,
-			"userID": prc.user.getID()
+			"userID": prc.user.getID(),
+			"songTitle": rc.songTitle,
+			"songThumbnail": rc.songThumbnail,
+			"artist": rc.artist,
+			"album": rc.album,
+			"geniusMetadata": isStruct(rc.geniusMetadata) ? serializeJSON(rc.geniusMetadata) : rc.geniusMetadata
 		});
 
 		prc.response.setData( tab.getMemento() );
@@ -53,12 +68,26 @@ component extends="coldbox.system.RestHandler" secured="true" {
 	 * Update a tab
 	 */
 	any function update( event, rc, prc ){
+		event.paramValue("songTitle","");
+		event.paramValue("songThumbnail","");
+		event.paramValue("artist","");
+		event.paramValue("album","");
+		event.paramValue("geniusMetadata","");
+		//Quick sets it to null for an empty string
+		if ( isStruct(rc.geniusMetadata) && structIsEmpty(rc.geniusMetadata) ){
+			rc.geniusMetadata = "";
+		}
 
 		var movie =prc.user.tablature()
 			.findOrFail( rc.id )
 			.update( {
 				"title": rc.title,
-				"content": rc.content
+				"content": rc.content,
+				"songTitle": rc.songTitle,
+				"songThumbnail": rc.songThumbnail,
+				"artist": rc.artist,
+				"album": rc.album,
+				"geniusMetadata": isStruct(rc.geniusMetadata) ? serializeJSON(rc.geniusMetadata) : rc.geniusMetadata
 			});
 
 		prc.response.setData( movie.getMemento() );

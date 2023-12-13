@@ -7,6 +7,11 @@ component extends="quick.models.BaseEntity" accessors="true" table="tablature" {
 	property name="title" column="title";
 	property name="content" column="content";
 	property name="tags" column="tags";
+    property name="songTitle" column="song_title";
+    property name="songThumbnail" column="song_thumbnail";
+    property name="artist" column="song_artist";
+    property name="album" column="song_album";
+    property name="geniusMetadata" column="genius_metadata";
 	property name="userID" column="user_id";
 
 
@@ -28,7 +33,12 @@ component extends="quick.models.BaseEntity" accessors="true" table="tablature" {
             "title" = getTitle(),
             "content" = getContent(),
             "userID" = getUserID(),
-            "tags" = getTags()
+            "tags" = getTags(),
+            "songTitle" = getSongTitle(),
+            "songThumbnail" = getSongThumbnail(),
+            "album" = getAlbum(),
+            "artist" = getArtist(),
+            "geniusMetadata" = getGeniusMetadata()
         };
     }
 

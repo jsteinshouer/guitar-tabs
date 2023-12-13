@@ -1,7 +1,7 @@
 /**
 * Genius API Proxy
 */
-component extends="coldbox.system.RestHandler" secured="true" {
+component extends="BaseHandler" secured="true" {
 
 	property name="geniusService" inject="songs.GeniusAPIService";
 	/**
@@ -24,6 +24,23 @@ component extends="coldbox.system.RestHandler" secured="true" {
 		else {
 			prc.response.setErrorMessage(
 				errorMessage = "Search query is required",
+				statusCode = 400,
+				statusText = "Bad Request"
+			)
+		}
+	}
+
+	/**
+	 * Get song data from the API
+	 */
+	any function song( event, rc, prc ){
+		
+		if ( rc.keyExists("id") ) {
+			prc.response.setData( geniusService.getSong( rc.id ).getMemento() );
+		}
+		else {
+			prc.response.setErrorMessage(
+				errorMessage = "Song ID is required",
 				statusCode = 400,
 				statusText = "Bad Request"
 			)

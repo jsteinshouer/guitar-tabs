@@ -48,10 +48,7 @@ async function loadTabs() {
 }
 
 async function addTab( tab ) {
-    const response = await fetchHelper.post("/api/tablature", {
-        title: tab.title,
-        content: tab.content
-    });
+    const response = await fetchHelper.post("/api/tablature", tab );
 
     if ( response.statusCode == 201 ) {
         await loadTabs()
