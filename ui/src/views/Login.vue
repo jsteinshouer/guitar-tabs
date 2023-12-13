@@ -9,6 +9,7 @@ const username = ref('')
 const password = ref('')
 const errorMessage = ref('')
 const showLogin = ref(false)
+const busy = ref(false)
 
 onMounted( async () => {
   //Check the server to see if it not a browser reload
@@ -22,8 +23,10 @@ onMounted( async () => {
 })
 async function login() {
 	if ( username.value && password.value ) {
+		busy.value = true;
 		await store.authenticate( username.value, password.value )
 		if ( !store.state.isLoggedIn ) {
+			busy.value = false;
 			errorMessage.value = "Login failed!"
 		}
 		else {
@@ -69,7 +72,7 @@ async function login() {
 					Remember me
 				</label>
 				</fieldset> -->
-				<button type="submit" class="contrast" @click.prevent="login">Login</button>
+				<button type="submit" class="contrast" @click.prevent="login" :aria-busy="busy" :disabled="busy"> Login</button>
 				<span class="error">{{ errorMessage }}</span>
 			</form>
 		</article>
