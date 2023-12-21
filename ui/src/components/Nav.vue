@@ -11,10 +11,10 @@
           </ul>
           <ul v-if="isLoggedin == true">
             <li v-if="route.params.id">
-              <router-link :to="`/edit/${route.params.id}`">Edit</router-link>
+              <router-link :to="`/edit/${route.params.id}`"><i class="bi bi-pencil-square"></i></router-link>
             </li>
             <li>
-              <router-link to="/new">New</router-link>
+              <router-link to="/new"><i class="bi bi-plus-square"></i></router-link>
             </li>
             <!-- <li>
               <details role="list" dir="rtl">
@@ -50,5 +50,8 @@ const isLoggedin = computed(() => {
 }
 nav ul li {
   padding-right: 20px;
+}
+a {
+  font-size: 1.3em;
 }
 </style>
