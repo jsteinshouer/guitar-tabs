@@ -11,10 +11,10 @@
           </ul>
           <ul v-if="isLoggedin == true">
             <li v-if="route.params.id">
-              <router-link :to="`/edit/${route.params.id}`"><i class="bi bi-pencil-square"></i></router-link>
+              <router-link :to="`/edit/${route.params.id}`" alt="Edit Tab" data-tooltip="Edit Tab" data-placement="bottom"><i class="bi bi-pencil-square"></i></router-link>
             </li>
             <li>
-              <router-link to="/new"><i class="bi bi-plus-square"></i></router-link>
+              <router-link to="/new" alt="Add Tab" data-tooltip="Add Tab" data-placement="bottom"><i class="bi bi-plus-square"></i></router-link>
             </li>
             <!-- <li>
               <details role="list" dir="rtl">
