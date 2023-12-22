@@ -78,7 +78,7 @@ component{
 			JWT_EXP_MIN = getSystemSetting("JWT_EXP_MIN"),
 			AUTH_COOKIE_NAME = getSystemSetting("AUTH_COOKIE_NAME"),
 			GENIUS_API_KEY = getSystemSetting("GENIUS_API_KEY"),
-			DEBUG_MODE = getSystemSetting("DEBUG_MODE", false),
+			DEBUG_MODE = isBoolean( getSystemSetting("DEBUG_MODE", false) ) ? getSystemSetting("DEBUG_MODE", false) : false,
 			htmlhelper_js_path = "",
 			htmlhelper_css_path = ""	
 		};
