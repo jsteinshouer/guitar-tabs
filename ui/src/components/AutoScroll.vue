@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onUnmounted } from 'vue'
 
 const autoScrollOn = ref(false)
 let autoScrollTimeout = null;
@@ -8,6 +8,10 @@ function toggleAutoScroll() {
   autoScrollOn.value = !autoScrollOn.value
   autoScroll()
 }
+
+onUnmounted(() => {
+	clearTimeout(autoScrollTimeout)
+})
 
 function autoScroll() {
   if ( !autoScrollOn.value ) {
