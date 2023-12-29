@@ -58,11 +58,11 @@ async function addTab( tab ) {
 
 async function updateTab( tab ) {
     const response = await fetchHelper.put(`/api/tablature/${tab.id}`, tab );
+}
 
-    // if ( response.statusCode == 200 ) {
-    //     await loadTabs()
-    // }
-    
+async function scrapeMetadata( tab ) {
+    const response = await fetchHelper.get("/api/genius/scrape" );
+    state.myTabs = response.data;
 }
 
 
@@ -73,5 +73,6 @@ export default {
     isLoggedIn,
     loadTabs,
     addTab,
-    updateTab
+    updateTab,
+    scrapeMetadata
 };

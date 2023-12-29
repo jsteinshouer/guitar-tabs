@@ -4,6 +4,7 @@ import MyTabs from './views/MyTabs.vue'
 import Tab from './views/Tab.vue' 
 import Login from './views/Login.vue'
 import TabForm from './views/TabForm.vue'
+import Scrape from './views/Scrape.vue'
 
 const routes = [
     {
@@ -29,6 +30,11 @@ const routes = [
     {
         path: '/edit/:id',
         component: TabForm,
+        meta: { requiredAuth: true }
+    }, 
+    {
+        path: '/scrape',
+        component: Scrape,
         meta: { requiredAuth: true }
     } 
 ]

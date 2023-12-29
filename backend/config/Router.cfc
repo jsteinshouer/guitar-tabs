@@ -22,6 +22,12 @@ component{
 				GET: "song" 
 			})
 			.toHandler("Genius");
+		route( "/genius/scrape")
+			.withNamespace("api")
+			.withAction({
+				GET: "scrape" 
+			})
+			.toHandler("Genius");
 		route( "/genius")
 			.withNamespace("api")
 			.withAction({

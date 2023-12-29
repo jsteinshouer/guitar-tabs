@@ -16,16 +16,19 @@
             <li>
               <router-link to="/new" alt="Add Tab" data-tooltip="Add Tab" data-placement="bottom"><i class="bi bi-plus-square"></i></router-link>
             </li>
-            <!-- <li>
+            <li>
               <details role="list" dir="rtl">
-                <summary aria-haspopup="listbox" role="link" class="contrast">Theme</summary>
+                <summary aria-haspopup="listbox" role="link" class="contrast"><i class="bi bi-gear"></i></summary>
                 <ul role="listbox">
-                  <li><a href="#" data-theme-switcher="auto">Auto</a></li>
+                  <li> 
+                    <router-link to="/scrape">Scrape Data</router-link>
+                  </li>
+                  <!-- <li><a href="#" data-theme-switcher="auto">Auto</a></li>
                   <li><a href="#" data-theme-switcher="light">Light</a></li>
-                  <li><a href="#" data-theme-switcher="dark">Dark</a></li>
+                  <li><a href="#" data-theme-switcher="dark">Dark</a></li> -->
                 </ul>
               </details>
-            </li> -->
+            </li>
             <li></li>
           </ul>
         </nav>
