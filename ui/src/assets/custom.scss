@@ -81,6 +81,18 @@ body {
     font-weight: bold !important;
     border: none !important;
   }
+
+  button:hover {
+    background-color: lighten(#a9bc52, 10) !important;
+  }
+
+  button.secondary {
+    background-color: var(--secondary) !important;
+  }
+  button.secondary:hover {
+    background-color: var(--secondary-hover) !important;
+  }
+
   .error {
     color: #{$red-800}
   }
