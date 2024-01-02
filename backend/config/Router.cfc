@@ -40,6 +40,12 @@ component{
 				POST: "index" 
 			})
 			.toHandler("Signup");
+		route( "/authorize/logout")
+			.withNamespace("api")
+			.withAction({
+				GET: "logout" 
+			})
+			.toHandler("Authorize")
 		route( "/authorize")
 			.withNamespace("api")
 			.withAction({

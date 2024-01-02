@@ -61,7 +61,7 @@ component singleton {
 			"sub" = arguments.username
 		};
 		var authToken = jwt.encode( authTokenPayload );
-		cfheader( name="Set-Cookie", value="#AUTH_COOKIE_NAME#=#authToken#;path=/;domain=#listFirst( CGI.HTTP_HOST, ':' )#;HTTPOnly" );
+		cfheader( name="Set-Cookie", value="#AUTH_COOKIE_NAME#=#authToken#;Max-Age=#(int(JWT_EXP_MIN * 60))#;path=/;domain=#listFirst( CGI.HTTP_HOST, ':' )#;HTTPOnly" );
 	}
 
 	/**
@@ -80,6 +80,27 @@ component singleton {
 				authResult.username = payload.sub;
 			}
 			catch (any e) {}
+		}
+
+		return authResult;
+	}
+
+	/**
+	 * Delete auth cookie
+	 */
+	public struct function logout() {
+		var authResult = {
+			"success" = false,
+			"message" = ""
+		};
+		
+		if ( structKeyExists( cookie, AUTH_COOKIE_NAME) ) {
+			structDelete( cookie, AUTH_COOKIE_NAME );
+			cfheader( name="Set-Cookie", value="#AUTH_COOKIE_NAME#=;Max-Age=-1;path=/;domain=#listFirst( CGI.HTTP_HOST, ':' )#;HTTPOnly" );
+			authResult.success = true;
+		}
+		else {
+			authResult.message = "Auth cookie does not exist";
 		}
 
 		return authResult;

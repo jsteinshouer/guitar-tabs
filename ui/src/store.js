@@ -28,6 +28,11 @@ async function authenticate( username, password ) {
     return authResponse;
 }
 
+async function logout() {
+    const authResponse = await fetchHelper.get("/api/authorize/logout");
+    state.isLoggedIn = false;
+}
+
 async function checkAuth() {
     
     const response = await fetchHelper.get("/api/echo");
@@ -69,6 +74,7 @@ async function scrapeMetadata( tab ) {
 export default {
     state,
     authenticate,
+    logout,
     checkAuth,
     isLoggedIn,
     loadTabs,

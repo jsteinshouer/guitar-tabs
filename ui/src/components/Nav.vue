@@ -4,7 +4,7 @@
           <ul>
             <li class="brand">
               <router-link to="/">
-                <img src="favicon.ico" class="favicon">
+                <img src="../assets/favicon.ico" class="favicon">
                 <strong>Guitar Tabs</strong>
               </router-link>
             </li>
@@ -23,9 +23,9 @@
                   <li> 
                     <router-link to="/scrape">Scrape Data</router-link>
                   </li>
-                  <!-- <li><a href="#" data-theme-switcher="auto">Auto</a></li>
-                  <li><a href="#" data-theme-switcher="light">Light</a></li>
-                  <li><a href="#" data-theme-switcher="dark">Dark</a></li> -->
+                  <li> 
+                    <a href="#" @click.prevent="logout">Logout</a>
+                  </li>
                 </ul>
               </details>
             </li>
@@ -36,13 +36,19 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { computed } from 'vue'
 import store from '../store';
 const route = useRoute();
+const router = useRouter();
 const isLoggedin = computed(() => { 
     return store.isLoggedIn()
 })
+
+const logout = async function() {
+  await store.logout();
+  router.push({ path: "/login" })
+}
 
 </script>
 

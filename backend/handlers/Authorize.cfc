@@ -35,6 +35,18 @@ component extends="BaseHandler" {
 			prc.response.setStatusCode( 401 );
 			prc.response.setStatusText( "Unauthorized" );
 		}
+	}
+
+	/**
+	 * Delete the session cookie
+	 *
+	 * @x-route (GET) /api/authorize/logout
+	 */
+	function logout( event, rc, prc ) {
+
+		var result = securityService.logout();
+		prc.response.setStatusCode( 200 );
+		prc.response.setData(result);
 
 	}
 
