@@ -46,7 +46,7 @@ async function search() {
   busy.value = true;
   const response = await fetch( `/api/genius?searchQuery=${searchQuery.value}` );
   const apiResponse = await response.json();
-  results.value = apiResponse.data.response.hits;
+  results.value = apiResponse.data.response.hits.filter( (item) => item.type == 'song' );
   busy.value = false;
 }
 
