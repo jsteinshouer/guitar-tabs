@@ -6,16 +6,17 @@ services:
             context: .
             target: backend
         container_name: tabs-backend
+        command: sh -c "box install && /usr/local/bin/startup.sh"
         ports:
             - 8080:8080
         volumes:
             - ./.data:/root/.data
             - .:/workspace:cached
+            # - /app/lib
+            # - /app/coldbox
+            # - /app/modules
+            # - /app/testbox
             - ./backend:/app
-            - ./backend/modules:/app/modules
-            - /app/lib
-            - /app/coldbox
-            - /app/testbox
         environment:
             - PORT=8080
             - ENVIRONMENT=${ENVIRONMENT}
@@ -39,7 +40,8 @@ services:
         volumes:
             - .:/workspace:cached
             - ./ui:/app
-            - /app/node_modules
+            # - /app/node_modules
+        command: sh -c "npm install && npm run dev"
         ports:
             - 8081:8081
         links:
