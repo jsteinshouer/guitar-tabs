@@ -30,15 +30,9 @@ function autoScroll() {
 </script>
 
 <template>
-	<div class="toolbar">
-		<button class="outline" @click="toggleAutoScroll()"><i :class="autoScrollOn ?'bi bi-caret-down-fill' : 'bi bi-caret-down' " width="16" height="16"></i></button>
-	</div>
+	<button class="outline" @click="toggleAutoScroll()"><i :class="autoScrollOn ?'bi bi-caret-down-fill' : 'bi bi-caret-down' " width="16" height="16"></i></button>
 </template>
 
 <style scoped>
-	.toolbar {
-		position: fixed;
-		bottom: 30px;
-		right: 30px;
-	}
+
 </style>
