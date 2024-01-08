@@ -44,7 +44,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 			} 
 			finally {
 				transaction action="rollback";
-                if ( getRequestContext().getPrivateValue("response").getStatusCode() == 500 ) {
+                if ( getRequestContext()?.getPrivateValue("response")?.getStatusCode() == 500 ) {
                     debug( getRequestContext().getPrivateValue("response").getMemento() );
                 }
 				getPageContext().getResponse().reset();

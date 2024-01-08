@@ -46,7 +46,7 @@ component extends="BaseIntegrationTest" {
 
 	function run(){
 
-		describe( "Test Tablature Resource", function(){
+		describe( "Test TabList Resource", function(){
 
 			beforeEach(function( currentSpec ){
 				// Setup as a new ColdBox request, VERY IMPORTANT. ELSE EVERYTHING LOOKS LIKE THE SAME REQUEST.
@@ -56,9 +56,9 @@ component extends="BaseIntegrationTest" {
 
 			});
 
-			describe( "GET /tablature/:id", function(){
+			describe( "GET /list/:id", function(){
 
-				it( "should get a tab", function(){
+				it( "should get a list", function(){
 					var user = getInstance( "User" ).create(testUser);
 
 					var tab = getInstance( "Tab" ).create( {
@@ -66,136 +66,196 @@ component extends="BaseIntegrationTest" {
 						"content": "test content",
 						"userID": user.getID()
 					});
+					var tab2 = getInstance( "Tab" ).create( {
+						"title": "Another tab",
+						"content": "more content",
+						"userID": user.getID()
+					});
 
-					var event = get( route = "api/tablature/" & tab.getID()  );
-
+					var list = getInstance( "TabList" ).create( {
+						"title": "My List Title",
+						"userID": user.getID()
+					});
+					list.tabs().attach( tab );
+					list.tabs().attach( tab2 );
+					
+					var event = get( route = "api/list/" & list.getID()  );
 					
 					var response 	= event.getPrivateValue( "response" );
 					expect(	response.getStatusCode() ).toBe( 200 );
-					expect(	response.getData().id ).toBe( tab.getID() );
-					expect(	response.getData().title ).toBe( "My Tab Title" );
-					expect(	response.getData().content ).toBe( "test content" );
-					expect(	response.getData().songTitle ).toBe( "" );
+					expect(	response.getData().id ).toBe( list.getID() );
+					expect(	response.getData().title ).toBe( "My List Title" );
+					expect(	response.getData().tabs.len() ).toBe( 2 );
 
 				});
 
 			});
 
 
-			describe( "GET /tablatures", function(){
+			describe( "GET /list", function(){
 
-				it( "should list existing tabs", function(){
+				it( "should return the user's lists", function(){
 
 					var user = getInstance( "User" ).create(testUser);
 
-					var tab = getInstance( "Tab" );
-
-					tab.create( {
-						"title": "Test 1",
-						"content": "test 1",
+					var tab = getInstance( "Tab" ).create( {
+						"title": "My Tab Title",
+						"content": "test content",
 						"userID": user.getID()
-
 					});
-					tab.create( {
-						"title": "Test 2",
-						"content": "test 2",
+					var tab2 = getInstance( "Tab" ).create( {
+						"title": "Another tab",
+						"content": "more content",
 						"userID": user.getID()
 					});
 
-					var event = get( route = "api/tablature" );
+					var list = getInstance( "TabList" ).create( {
+						"title": "My Favorites",
+						"userID": user.getID()
+					});
+					list.tabs().attach( tab );
+					list.tabs().attach( tab2 );
+
+					var list2 = getInstance( "TabList" ).create( {
+						"title": "Another list",
+						"userID": user.getID()
+					});
+					list2.tabs().attach( tab );
+
+					var event = get( route = "api/list" );
 
 					var response 	= event.getPrivateValue( "response" );
 					expect(	response.getStatusCode() ).toBe( 200 );
 					expect(	response.getData().len() ).toBe( 2 );
-					expect(	response.getData()[1].content ).toBe( "test 1" );
+					expect(	response.getData()[1].title ).toBe( "My Favorites" );
+					expect(	response.getData()[1].tabs.len() ).toBe( 2 );
+					expect(	response.getData()[2].tabs.len() ).toBe( 1 );
 
 				});
 
 			});
 
 
-			describe( "POST /tablature", function(){
+			describe( "POST /list", function(){
 
-				it( "should create a new tab", function(){
+				it( "should create a new list", function(){
 					var user = getInstance( "User" ).create(testUser);
 
 					var event = post(
-						route = "api/tablature",
+						route = "api/list",
 						params = {
-							title = "Test Tab Title",
-							content = "Some Tab Content",
-							songTitle = "A song title"
+							title = "My Favortites"
 						}
 					);
 
 					var response 	= event.getPrivateValue( "response" );
 					expect(	response.getStatusCode() ).toBe( 201 );
 					expect(	response.getData().id ).toBeGT( 0 );
-					expect(	response.getData().title ).toBe( "Test Tab Title" );
-					expect(	response.getData().content ).toBe( "Some Tab Content" );
-					expect(	response.getData().songTitle ).toBe( "A song title" );
+					expect(	response.getData().title ).toBe( "My Favortites" );
 				});
 
 			});
 
-			describe( "PUT /tablature/:id", function(){
+			describe( "POST /list/:id/item/:tabID", function(){
 
-				it( "should get a tab", function(){
+				it( "should add an item to a list", function(){
 					var user = getInstance( "User" ).create(testUser);
 
+					var list = getInstance( "TabList" ).create( {
+						"title": "My List",
+						"userID": user.getID()
+					});
+
 					var tab = getInstance( "Tab" ).create( {
-						"title": "My Tab Title",
+						"title": "My Tab",
 						"content": "test content",
 						"userID": user.getID()
 					});
 
-					var event = put( 
-						route = "api/tablature/" & tab.getID(),
-						params = {
-							title = "Change the Title",
-							content = "Some Tab Content",
-							songTitle = "Stonehenge",
-							songThumbnail = "https://t2.genius.com/unsafe/300x300/https:%2F%2Fimages.genius.com%2Fe1b6cf394040da531371536930d2eab5.1000x1000x1.jpg",
-							artist = "Spinal Tap",
-							album = "This is Spinal Tap",
-							geniusMetadata = {id: 12345}
-						}
+					var event = post(
+						route = "api/list/#list.getID()#/item/#tab.getID()#"
 					);
 
+					var response 	= event.getPrivateValue( "response" );
+					expect(	response.getStatusCode() ).toBe( 201 );
+					expect(	list.getTabs().len() ).toBe( 1 );
+				});
+
+			});
+
+			describe( "DELETE /list/:id/item/:tabID", function(){
+
+				it( "should remove an item to a list", function(){
+					var user = getInstance( "User" ).create(testUser);
+
+					var list = getInstance( "TabList" ).create( {
+						"title": "My List",
+						"userID": user.getID()
+					});
+
+					var tab = getInstance( "Tab" ).create( {
+						"title": "My Tab",
+						"content": "test content",
+						"userID": user.getID()
+					});
+
+					list.tabs().attach( tab );
+
+					var event = delete(
+						route = "api/list/#list.getID()#/item/#tab.getID()#"
+					);
+
+					var response 	= event.getPrivateValue( "response" );
+					expect(	response.getStatusCode() ).toBe( 200 );
+					expect(	list.getTabs().len() ).toBe( 0 );
+				});
+
+			});
+
+			describe( "PUT /list/:id", function(){
+
+				it( "should get a tab", function(){
+					var user = getInstance( "User" ).create(testUser);
+
+					var list = getInstance( "TabList" ).create( {
+						"title": "My List",
+						"userID": user.getID()
+					});
+
+					var event = put( 
+						route = "api/list/" & list.getID(),
+						params = {
+							title = "Change the Title"
+						}
+					);
 					
 					var response 	= event.getPrivateValue( "response" );
 					expect(	response.getStatusCode() ).toBe( 200 );
-					expect(	response.getData().id ).toBe( tab.getID() );
+					expect(	response.getData().id ).toBe( list.getID() );
 					expect(	response.getData().title ).toBe( "Change the Title" );
-					expect(	response.getData().content ).toBe( "Some Tab Content" );
-					expect(	response.getData().songTitle ).toBe( "Stonehenge" );
-					expect(	response.getData().artist ).toBe( "Spinal Tap" );
-					expect(	response.getData().album ).toBe( "This is Spinal Tap" );
-					expect(	deserializeJSON(response.getData().geniusMetadata ).id ).toBe( 12345 );
 
 				});
 
 			});
 
-			describe( "DELETE /tablature", function(){
+			describe( "DELETE /list", function(){
 
 				it( "should delete tab record", function(){
 					var user = getInstance( "User" ).create(testUser);
 
-					var testTab = getInstance( "Tab" ).create( {
+					var testList = getInstance( "TabList" ).create( {
 						"title": "Test 1",
-						"content": "test 1",
 						"userID": user.getID()
 					});
 
 					var event = delete(
-						route = "api/tablature/#testTab.getID()#"
+						route = "api/list/#testList.getID()#"
 					);
 
 					var response 	= event.getPrivateValue( "response" );
 
 					expect(	response.getStatusCode() ).toBe( 200 );
-					expect(	getInstance( "Tab" ).find( testTab.getID() ) ).toBeNull();
+					expect(	getInstance( "TabList" ).find( testList.getID() ) ).toBeNull();
 				});
 
 			});

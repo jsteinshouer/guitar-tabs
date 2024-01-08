@@ -19,6 +19,8 @@ component{
 	rootPath = REReplaceNoCase( this.mappings[ "/tests" ], "tests(\\|/)", "" );
 	this.mappings["/root"]   = rootPath;
 	this.mappings["/models"]   = rootPath & "/models";
+	this.mappings[ "/qb" ] = rootPath & "/modules/quick/modules/qb";
+	this.mappings[ "/cbpaginator" ] = rootPath & "/modules/quick/modules/qb/modules/cbpaginator";
 	this.mappings[ "/quick" ] = rootPath & "/modules/quick";
 	this.mappings[ "/cfmigrations" ] = rootPath & "/modules/cfmigrations";
 	

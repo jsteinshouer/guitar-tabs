@@ -25,21 +25,15 @@ component extends="quick.models.BaseEntity" accessors="true" table="tablature" {
 	    return belongsTo( "User" );
 	}
 
+    function lists() {
+	    return belongsToMany( "TabList", "user_list_tablature", "tablature_id", "user_list_id" );
+	}
+
 	//Overide default to provide tablatureID
 	function getMemento() {
-        return {
-            "id" = getId(),
-            "tablatureID" = getId(),
-            "title" = getTitle(),
-            "content" = getContent(),
-            "userID" = getUserID(),
-            "tags" = getTags(),
-            "songTitle" = getSongTitle(),
-            "songThumbnail" = getSongThumbnail(),
-            "album" = getAlbum(),
-            "artist" = getArtist(),
-            "geniusMetadata" = getGeniusMetadata()
-        };
+        var data = $getMemento( argumentCollection = arguments );
+        data["tablatureID"] = getId();
+        return data;
     }
 
 }

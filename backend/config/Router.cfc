@@ -52,8 +52,16 @@ component{
 				POST: "index" 
 			})
 			.toHandler("Authorize")
+		route( "/list/:id/item/:tabID")
+			.withNamespace("api")
+			.withAction({
+				POST: "addItem", 
+				DELETE: "removeItem" 
+			})
+			.toHandler("List")
 
 		resources( resource="Tablature", namespace="api" );
+		resources( resource="List", namespace="api" );
 
 		route(pattern=".*",handler="Main",action="index").end();
 	}

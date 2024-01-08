@@ -21,6 +21,10 @@ component extends="quick.models.BaseEntity" accessors="true" table="user" {
        return hasMany( "Tab" );
     }
 
+    function lists() {
+       return hasMany( "TabList" );
+    }
+
     public User function setPassword( required string password ){
 		return assignAttribute( "password", bcrypt.hashPassword( arguments.password ) );
 	}
