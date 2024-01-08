@@ -2,6 +2,7 @@ ARG PROFILE=development
 
 FROM  ortussolutions/commandbox:3.8.4 as backend
 WORKDIR $APP_DIR
+
 COPY backend /app
 RUN box install \
     && cp /app/lib/sqlite-jdbc/sqlite-jdbc-3.44.0.0.jar ${COMMANDBOX_HOME}/lib \
@@ -14,18 +15,16 @@ CMD /usr/local/bin/startup.sh
 
 FROM mcr.microsoft.com/devcontainers/javascript-node:20 as ui
 WORKDIR /app
-COPY ui/package.json /app/package.json
-COPY ui/package-lock.json /app/package-lock.json
-RUN npm install
 
-EXPOSE 8081
+# Install dependencies first to leverage Docker cache
+COPY ui/package.json ui/package-lock.json ./
+ 
+# Using cache mount for npm install, so unchanged packages aren’t downloaded every time
+RUN --mount=type=cache,target=/root/.npm \
+    npm install
 
-CMD ["npm", "run", "dev"]
-
-FROM mcr.microsoft.com/devcontainers/javascript-node:20 as ui-build
-WORKDIR /app
 COPY ui /app
-RUN npm install && npm run build
+RUN npm run build
 
 # Production build
 FROM adoptopenjdk/openjdk11:debianslim-jre as prod
