@@ -13,23 +13,31 @@ store.state.currentTabID = tab.id;
 <template>
     <h2>{{ tab.title }}</h2>
     <pre>{{ tab.content }}</pre>
-	<div class="toolbar">
-    	<button @click="$router.push( `/edit/${route.params.id}` )" alt="Edit Tab" data-tooltip="Edit Tab" data-placement="bottom"><i class="bi bi-pencil-square"></i></button>
-		<AutoScroll />
+	<div class="toolbar grid">
+    	<div>
+			<button @click="$router.push( `/edit/${route.params.id}` )" alt="Edit Tab" data-tooltip="Edit Tab" data-placement="bottom"><i class="bi bi-pencil-square"></i></button>
+		</div>
+		<div>
+			<AutoScroll />
+		</div>
 	</div>
 </template>
 
 <style scoped>
 	.toolbar {
 		position: fixed;
-		width: 150px;
-		top: 80px;
+		width: 100px;
+		top: 100px;
 		right: 25px;
+		grid-column-gap: 1px !important;
 	}
 	.toolbar button {
-		display: inline;
-		width: 40%;
-		margin: 3px;
+		padding: 5px;
+		margin: 1px;
+		width: 80%;
+	}
+	grid-column-gap {
+
 	}
 	pre {
         padding: 8px;
