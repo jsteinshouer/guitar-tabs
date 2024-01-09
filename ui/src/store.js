@@ -3,7 +3,8 @@ import { fetchHelper } from "./helpers/fetchHelper.js";
 
 let state = reactive({
     isLoggedIn: false,
-    myTabs: []
+    myTabs: [],
+    searchQuery: ""
 });
 
 function isLoggedIn() {

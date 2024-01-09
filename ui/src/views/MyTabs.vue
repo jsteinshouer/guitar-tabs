@@ -1,13 +1,12 @@
 <script setup>
 import { ref, computed } from 'vue'
 import store from '../store'
-const searchQuery = ref('')
 const data = store.state.myTabs;
 
 const filteredTabs = computed(() => { 
-    if ( searchQuery.value.length ) {
+    if ( store.state.searchQuery.length ) {
         return data.filter( (item) => {
-            return String(item.title).toLowerCase().indexOf(searchQuery.value) > -1
+            return String(item.title).toLowerCase().indexOf(store.state.searchQuery) > -1
         })
     }
     else {
@@ -20,7 +19,6 @@ const filteredTabs = computed(() => {
 
 <template>
     <div class="myTabs">
-        <input type="text" id="search" name="search" placeholder="Search" v-model="searchQuery" />
         <div v-for="item in filteredTabs">
             <router-link :to="`/tab/${item.id}`" class="white card"> <article>
             <div class="grid">

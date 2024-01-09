@@ -11,6 +11,9 @@
           </ul>
           <ul v-if="isLoggedin == true">
             <li>
+              <input type="search" id="search" name="search" placeholder="Search" v-model="store.state.searchQuery" @keyup.enter="$router.push( '/' )"> 
+            </li>
+            <li>
               <router-link to="/new" alt="Add Tab" data-tooltip="Add Tab" data-placement="bottom"><i class="bi bi-plus-square"></i></router-link>
             </li>
             <li>
@@ -59,5 +62,9 @@ nav ul li {
 }
 a {
   font-size: 1.3em;
+}
+
+#search {
+  height: 2.2rem;
 }
 </style>
