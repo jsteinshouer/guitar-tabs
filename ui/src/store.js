@@ -82,14 +82,18 @@ function getFavoriteslist() {
     return favoritesList;
 }
 
-async function createFavoritesList() {
+async function createList( title ) {
     const response = await fetchHelper.post("/api/list", {
-        title: "Favorites"
+        title: title
     });
 
     state.lists.push( response.data );
 
     return response.data;
+}
+async function createFavoritesList() {
+
+    return createList("Favorites");
 }
 
 async function addListItem( listID, tabID ) {
@@ -125,5 +129,6 @@ export default {
     scrapeMetadata,
     getFavoriteslist,
     addListItem,
-    removeListItem
+    removeListItem,
+    createList
 };
