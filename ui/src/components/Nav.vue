@@ -18,6 +18,16 @@
             </li>
             <li>
               <details role="list" dir="rtl">
+                <summary aria-haspopup="listbox" role="link" class="contrast"><i class="bi bi-bookmark-star"></i></summary>
+                <ul role="listbox">
+                  <li v-for="list in store.state.lists"> 
+                    <router-link :to="`/list/${list.id}`">{{ list.title }}</router-link>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <details role="list" dir="rtl">
                 <summary aria-haspopup="listbox" role="link" class="contrast"><i class="bi bi-gear"></i></summary>
                 <ul role="listbox">
                   <li> 
