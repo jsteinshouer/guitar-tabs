@@ -55,16 +55,12 @@ const router = createRouter({
     }
 })
 
-router.beforeEach((to, from, next ) => {
+router.beforeEach((to, from ) => {
     console.log()
     if (to.meta.requiredAuth && !store.state.isLoggedIn ) {
-        return next({ path: "/login" });
+        return { path: "/login", query: { returnURL: to.path }  };
     }
-    else {
-        return next();
-    }
-    // explicitly return false to cancel the navigation
-    return false
+
 })
 
 export default router
