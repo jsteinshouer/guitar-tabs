@@ -5,7 +5,7 @@
             <li class="brand">
               <router-link to="/">
                 <img src="../assets/favicon.ico" class="favicon">
-                <strong>Guitar Tabs</strong>
+                <strong class="brand-title">Guitar Tabs</strong>
               </router-link>
             </li>
           </ul>
@@ -15,6 +15,16 @@
             </li>
             <li>
               <router-link to="/new" alt="Add Tab" data-tooltip="Add Tab" data-placement="bottom"><i class="bi bi-plus-square"></i></router-link>
+            </li>
+            <li>
+              <details role="list" dir="rtl">
+                <summary aria-haspopup="listbox" role="link" class="contrast"><i class="bi bi-bookmark-star"></i></summary>
+                <ul role="listbox">
+                  <li v-for="list in store.state.lists"> 
+                    <router-link :to="`/list/${list.id}`">{{ list.title }}</router-link>
+                  </li>
+                </ul>
+              </details>
             </li>
             <li>
               <details role="list" dir="rtl">
@@ -67,4 +77,18 @@ a {
 #search {
   height: 2.2rem;
 }
+
+.bi {
+ font-size: x-large;
+}
+
+@media (max-width: 992px) {
+    .brand-title{
+        display: none;
+    }
+    .favicon {
+      margin-right: 0px;
+    }
+}
+
 </style>

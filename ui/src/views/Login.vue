@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import store from '../store'
 const router = useRouter()
+const route = useRoute()
 
 // let tab = store.state.myTabs.find( (item) => item.id == route.params.id );
 const username = ref('')
@@ -10,12 +11,13 @@ const password = ref('')
 const errorMessage = ref('')
 const showLogin = ref(false)
 const busy = ref(false)
+const returnURL = route.query.returnURL || "/"
 
 onMounted( async () => {
   //Check the server to see if it not a browser reload
 	await store.checkAuth()
 	if ( store.state.isLoggedIn ) {
-		router.push( { path: "/" })
+		router.push( { path: returnURL })
 	}
 	else {
 		showLogin.value = true;
@@ -30,7 +32,8 @@ async function login() {
 			errorMessage.value = "Login failed!"
 		}
 		else {
-			router.push( { path: "/" })
+			password.value = '';
+			router.push( { path: returnURL })
 		}
 	}
 	else {
@@ -53,7 +56,6 @@ async function login() {
 					name="login"
 					placeholder="Login"
 					aria-label="Login"
-					autocomplete="nickname"
 					required
 					v-model="username"
 				/>

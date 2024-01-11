@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import store from './store'
 import MyTabs from './views/MyTabs.vue'
 import Tab from './views/Tab.vue' 
+import List from './views/List.vue' 
 import Login from './views/Login.vue'
 import TabForm from './views/TabForm.vue'
 import Scrape from './views/Scrape.vue'
@@ -28,6 +29,11 @@ const routes = [
         meta: { requiredAuth: true }
     },
     {
+        path: '/list/:id',
+        component: List,
+        meta: { requiredAuth: true }
+    },
+    {
         path: '/edit/:id',
         component: TabForm,
         meta: { requiredAuth: true }
@@ -49,15 +55,12 @@ const router = createRouter({
     }
 })
 
-router.beforeEach((to, from, next ) => {
+router.beforeEach((to, from ) => {
+    console.log()
     if (to.meta.requiredAuth && !store.state.isLoggedIn ) {
-        return next({ path: "/login" });
+        return { path: "/login", query: { returnURL: to.path }  };
     }
-    else {
-        return next();
-    }
-    // explicitly return false to cancel the navigation
-    return false
+
 })
 
 export default router

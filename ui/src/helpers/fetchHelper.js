@@ -1,7 +1,8 @@
 export const fetchHelper = {
     get,
     post,
-    put
+    put,
+    delete: doDelete
 };
 
 function get(url) {
@@ -29,6 +30,15 @@ function put(url, body) {
         mode: 'same-origin',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(body)
+    };
+    return fetch(url, requestOptions).then(handleResponse)
+}
+
+function doDelete(url) {
+    const requestOptions = {
+        method: 'DELETE',
+        mode: 'same-origin',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
     };
     return fetch(url, requestOptions).then(handleResponse)
 }

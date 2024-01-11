@@ -51,6 +51,7 @@
   // Inserted (<ins>) & Deleted (<ins>)
   --ins-color: #{$green-700};
   --del-color: #{$red-800};
+  --del-color-hover: #{$red-600};
 
   // Blockquote
   --blockquote-border-color: var(--muted-border-color);

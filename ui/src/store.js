@@ -4,6 +4,7 @@ import { fetchHelper } from "./helpers/fetchHelper.js";
 let state = reactive({
     isLoggedIn: false,
     myTabs: [],
+    lists: [],
     searchQuery: ""
 });
 
@@ -21,6 +22,7 @@ async function authenticate( username, password ) {
     if ( authResponse.statusCode == 200 ) {
         state.isLoggedIn = true;
         await loadTabs()
+        await loadLists()
     }
     else {
         state.isLoggedIn = false;
@@ -41,6 +43,7 @@ async function checkAuth() {
     if ( response.statusCode == 200 ) {
         state.isLoggedIn = true;
         await loadTabs()
+        await loadLists()
     }
     else {
         state.isLoggedIn = false;
@@ -71,6 +74,55 @@ async function scrapeMetadata( tab ) {
     state.myTabs = response.data;
 }
 
+function getFavoriteslist() {
+    let favoritesList = state.lists.find((element) => element.title == "Favorites")
+    if ( !favoritesList ) {
+        favoritesList = createFavoritesList()
+    }
+    return favoritesList;
+}
+
+async function createList( title ) {
+    const response = await fetchHelper.post("/api/list", {
+        title: title
+    });
+
+    state.lists.push( response.data );
+
+    return response.data;
+}
+async function createFavoritesList() {
+
+    return createList("Favorites");
+}
+
+async function addListItem( listID, tabID ) {
+    const response = await fetchHelper.post( `/api/list/${listID}/item/${tabID}`, {})
+
+    loadLists();
+
+    return response.data;
+}
+async function removeListItem( listID, tabID ) {
+    const response = await fetchHelper.delete( `/api/list/${listID}/item/${tabID}`)
+
+    loadLists();
+
+    return response.data;
+}
+async function deleteList( listID ) {
+    const response = await fetchHelper.delete( `/api/list/${listID}`)
+
+    loadLists();
+
+    return response.data;
+}
+
+async function loadLists() {
+    const response = await fetchHelper.get( '/api/list' );
+    state.lists = response.data;
+}
+
 
 export default {
     state,
@@ -81,5 +133,10 @@ export default {
     loadTabs,
     addTab,
     updateTab,
-    scrapeMetadata
+    scrapeMetadata,
+    getFavoriteslist,
+    addListItem,
+    removeListItem,
+    createList,
+    deleteList
 };
