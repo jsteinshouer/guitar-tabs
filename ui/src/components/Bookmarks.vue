@@ -71,7 +71,7 @@ async function createList() {
 
 function isListChecked( listID ) {
 	const thisList = store.state.lists.find( (item) => item.id == listID )
-	return thisList.tabs.find( (item) => item.id == tab.id) ? true : false
+	return ( thisList.tabs && thisList.tabs.find( (item) => item.id == tab.id) ) ? true : false
 }
 
 async function toggleList( listID ) {
@@ -80,6 +80,9 @@ async function toggleList( listID ) {
 		await store.removeListItem( listID, tab.id );
 	}
 	else {
+        if (!thisList.tabs) {
+            thisList.tabs = []
+        }
 		thisList.tabs.push(tab);
 		await store.addListItem( listID, tab.id );
 	}

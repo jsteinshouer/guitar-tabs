@@ -86,15 +86,21 @@ body {
     background-color: lighten(#a9bc52, 10) !important;
   }
 
-  button.secondary {
+  button.secondary, a.secondary{
     background-color: var(--secondary) !important;
   }
-  button.secondary:hover {
+  button.secondary:hover, a.secondary:hover {
     background-color: var(--secondary-hover) !important;
+  }
+  button.delete, a.delete{
+    background-color: var(--del-color) !important;
+  }
+  button.delete:hover, a.delete:hover {
+    background-color: var(--del-color-hover) !important;
   }
 
   .error {
-    color: #{$red-800}
+    color: #{$red-800};
   }
   
   .nav {

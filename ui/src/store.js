@@ -110,6 +110,13 @@ async function removeListItem( listID, tabID ) {
 
     return response.data;
 }
+async function deleteList( listID ) {
+    const response = await fetchHelper.delete( `/api/list/${listID}`)
+
+    loadLists();
+
+    return response.data;
+}
 
 async function loadLists() {
     const response = await fetchHelper.get( '/api/list' );
@@ -130,5 +137,6 @@ export default {
     getFavoriteslist,
     addListItem,
     removeListItem,
-    createList
+    createList,
+    deleteList
 };
