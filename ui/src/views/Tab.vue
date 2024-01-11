@@ -12,8 +12,8 @@ store.state.currentTabID = tab.id;
 </script>
 
 <template>
+	<div class="container-fluid">
     <h2>{{ tab.title }}</h2>
-    <pre>{{ tab.content }}</pre>
 	<div class="toolbar grid">
 		<div>
 			<AutoScroll />
@@ -25,8 +25,8 @@ store.state.currentTabID = tab.id;
 			<Bookmarks :tab="tab" />
 		</div>
 	</div>
-
-
+    <pre>{{ tab.content }}</pre>
+</div>
 </template>
 
 <style scoped>
@@ -42,9 +42,26 @@ store.state.currentTabID = tab.id;
 }
 
 @media (max-width: 992px) {
-    .toolbar {
-        width: 60px;
-    }
+
+	.toolbar {
+		position: inherit;
+		width: 100%;
+		grid-column-gap: 5px !important;
+	}
+
+	.grid {
+		display: flex;
+		margin: 1px;
+	}
+
+	.grid div {
+		width: 30%;
+	}
+
+	h2 {
+		margin-bottom: 15px;
+	}
+
 }
 .toolbar button,  [role=button] {
     padding: 5px;
