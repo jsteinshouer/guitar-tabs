@@ -5,7 +5,7 @@
             <li class="brand">
               <router-link to="/">
                 <img src="../assets/favicon.ico" class="favicon">
-                <strong>Guitar Tabs</strong>
+                <strong class="brand-title">Guitar Tabs</strong>
               </router-link>
             </li>
           </ul>
@@ -77,4 +77,18 @@ a {
 #search {
   height: 2.2rem;
 }
+
+.bi {
+ font-size: x-large;
+}
+
+@media (max-width: 992px) {
+    .brand-title{
+        display: none;
+    }
+    .favicon {
+      margin-right: 0px;
+    }
+}
+
 </style>
