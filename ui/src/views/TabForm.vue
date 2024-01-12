@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import store from '../store'
 import SongSearch from '../components/SongSearch.vue'
 const route = useRoute()
+const router = useRouter()
 const busy = ref(false)
 const openSearch = ref(false)
+const deleteConfirm = ref(false);
 const tab = ref({
     id: 0,
     title: "",
@@ -58,6 +60,12 @@ async function selectSong(song) {
     selectedSong.value.artist = song.artist
     selectedSong.value.geniusMetadata = song.geniusMetadata
 }
+
+async function deleteTab() {
+    await store.deleteTab( tab.value )
+    router.push( "/" )
+}
+
 </script>
 
 <template>
@@ -96,9 +104,26 @@ async function selectSong(song) {
           </article>
           <article class="result" v-else><p>No song selected</p></article>
         </label>
-        <button @click.prevent="saveTab" :aria-busy="busy" :disabled="busy">Save</button>
+        <div class="grid">
+            <div>
+                <button @click.prevent="deleteConfirm = true" :aria-busy="busy" :disabled="busy" class="delete">Delete</button>
+            </div>
+            <div>
+                <button @click.prevent="saveTab" :aria-busy="busy" :disabled="busy">Save</button>
+            </div>
+        </div>
     </div>
     <SongSearch :dialog-open="openSearch" @close="openSearch = false" @songSelected="selectSong" />
+    <dialog :open="deleteConfirm">
+    <article>
+        <h3>Are you sure?</h3>
+        <p>Please confirm you would like to delete the tab.</p>
+        <footer>
+        <a href="#cancel" role="button" class="secondary" @click="deleteConfirm = false">Cancel</a>
+        <a href="#confirm" role="button" @click="deleteTab">Confirm</a>
+        </footer>
+    </article>
+    </dialog>
 </template>
 
 <style scoped>
@@ -118,4 +143,10 @@ article {
     margin-top: 5px;
     padding: 15px;
 }
+
+dialog article {
+        width: 40% !important;
+        padding: 15px;
+        min-height: 300px;
+    }
 </style>

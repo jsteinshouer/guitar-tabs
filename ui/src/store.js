@@ -68,6 +68,13 @@ async function addTab( tab ) {
 async function updateTab( tab ) {
     const response = await fetchHelper.put(`/api/tablature/${tab.id}`, tab );
 }
+async function deleteTab( tab ) {
+    const response = await fetchHelper.delete(`/api/tablature/${tab.id}` );
+
+    if ( response.statusCode == 200 ) {
+        await loadTabs()
+    }
+}
 
 async function scrapeMetadata( tab ) {
     const response = await fetchHelper.get("/api/genius/scrape" );
@@ -132,6 +139,7 @@ export default {
     isLoggedIn,
     loadTabs,
     addTab,
+    deleteTab,
     updateTab,
     scrapeMetadata,
     getFavoriteslist,
