@@ -6,15 +6,19 @@ import AutoScroll from '../components/AutoScroll.vue';
 import Bookmarks from '../components/Bookmarks.vue';
 const route = useRoute()
 let tab = store.state.myTabs.find( (item) => item.id == route.params.id );
+const metadata = tab.geniusMetadata ? JSON.parse( tab.geniusMetadata ) : {}
 store.state.currentTabID = tab.id;
 
 
 </script>
 
 <template>
-	<div class="container-fluid">
+<div>
     <h2>{{ tab.title }}</h2>
 	<div class="toolbar grid">
+		<div>
+			<a v-if="metadata.url" :href="metadata?.url" target="_blank">Lyrics</a>
+		</div>
 		<div>
 			<AutoScroll />
 		</div>
@@ -35,7 +39,7 @@ store.state.currentTabID = tab.id;
 }
 .toolbar {
     position: fixed;
-    width: 250px;
+    width: 350px;
     top: 100px;
     right: 30px;
     grid-column-gap: 1px !important;
