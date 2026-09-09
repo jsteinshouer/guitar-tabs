@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-08T00:00:00Z",
+  "title": "Design System: The Tab File",
+  "extensions": {
+    "scope": "Governs the whole application. ui/src/assets/tabfile.scss is the only base stylesheet (tokens, @font-face, reset, fields, and the shared classes .legend, .legend-row, .rule, .seam, .field, .prose, .page, .page-head, .count, .alarm-text). Every view is in-world: Nav, TabList, SongSearch, MyTabs, List, TabForm, Login, Scrape, and the playing surface (Tab, Transport, Bookmarks). Pico CSS and Bootstrap Icons were removed with their theme files and package dependencies; bundle CSS fell 141KB to ~14.7KB and 306KB of icon fonts were removed.",
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Stage Black",
+        "canonical": "#0b0c0a",
+        "cssVariable": "--tf-ground",
+        "tonalRamp": [
+          "#050605",
+          "#0b0c0a",
+          "#151710",
+          "#232619",
+          "#3b3f2c",
+          "#5c6152",
+          "#8b917c",
+          "#d6dac9"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Bone",
+        "canonical": "#e8e6dd",
+        "cssVariable": "--tf-ink",
+        "tonalRamp": [
+          "#26251f",
+          "#3b392f",
+          "#575446",
+          "#75715f",
+          "#948f7b",
+          "#b4af99",
+          "#d0cbb8",
+          "#e8e6dd"
+        ]
+      },
+      "legend": {
+        "role": "neutral",
+        "displayName": "Legend Green",
+        "canonical": "#8b917c",
+        "cssVariable": "--tf-legend",
+        "tonalRamp": [
+          "#1a1c16",
+          "#2b2e24",
+          "#3f4333",
+          "#565a45",
+          "#6f7458",
+          "#8b917c",
+          "#aeb3a1",
+          "#d3d7c8"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Faint Green",
+        "canonical": "#7c8370",
+        "cssVariable": "--tf-faint",
+        "contrastOnGround": "4.98:1",
+        "tonalRamp": [
+          "#171a14",
+          "#262a20",
+          "#383d2e",
+          "#4c523d",
+          "#61684e",
+          "#7c8370",
+          "#a3a996",
+          "#cbd0c0"
+        ]
+      },
+      "receded": {
+        "role": "neutral",
+        "displayName": "Receded Green",
+        "canonical": "#5c6152",
+        "cssVariable": "--tf-receded",
+        "note": "Transient only: metadata text while the transport runs. Below the resting contrast floor by design.",
+        "tonalRamp": [
+          "#121410",
+          "#1e2119",
+          "#2c3024",
+          "#3c4131",
+          "#4c523f",
+          "#5c6152",
+          "#868b78",
+          "#b6baa8"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule Green",
+        "canonical": "#1e2119",
+        "cssVariable": "--tf-rule",
+        "note": "Strokes and typed dash runs only; never a text or fill colour.",
+        "tonalRamp": [
+          "#0b0c0a",
+          "#14160f",
+          "#1e2119",
+          "#2c3024",
+          "#3d4231",
+          "#525840",
+          "#7b8266",
+          "#adb398"
+        ]
+      },
+      "live": {
+        "role": "primary",
+        "displayName": "Signal Lime",
+        "canonical": "#d0eb55",
+        "cssVariable": "--tf-live",
+        "tonalRamp": [
+          "#20260a",
+          "#333d10",
+          "#4a5817",
+          "#63741f",
+          "#7d9227",
+          "#9fb735",
+          "#bcd845",
+          "#d0eb55"
+        ],
+        "note": "Live, working, focused, selected, hovered, or held. A working-disabled control computes rgb(208,235,85). Never a primary action that has not started."
+      },
+      "alarm": {
+        "role": "tertiary",
+        "displayName": "Alarm Coral",
+        "canonical": "#ff8b7a",
+        "cssVariable": "--tf-alarm",
+        "tonalRamp": [
+          "#3a1310",
+          "#57201a",
+          "#7a2f26",
+          "#a04034",
+          "#c65444",
+          "#e26c5b",
+          "#ff8b7a",
+          "#ffb8ac"
+        ],
+        "note": "Error lines (.alarm-text), the hover of a not-yet-destructive opener (.legend.alarm), and the resting colour of a confirmed irreversible action (.legend.destroy, computed rgb(255,139,122) on the shipped confirm step)."
+      }
+    },
+    "typographyMeta": {
+      "grid": {
+        "displayName": "Grid",
+        "purpose": "The tab body. Size is computed from the widest line (14px floor, 20px cap), never authored. Ligatures and contextual alternates off; advance width is the layout.",
+        "shipped": "14px at 390px portrait (width axis narrowed to 75%), 19.45px at 844px landscape, 20px at 1440px desktop."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "The h1 of every page and the song title; 1.75rem at >=900px on the playing surface, collapses to 1rem inline below 520px viewport height."
+      },
+      "legend": {
+        "displayName": "Legend",
+        "purpose": "Every bracketed control in the app. Size is authored once on .legend at 0.9375rem; the nav no longer leaks a size into it."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Fields, panel rows, and .prose (capped at 62ch, line-height 1.6)."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Field labels and hints, metadata rows, entry credits and column counts, page-head counts, transport keys, speed scale, position counter, error text. Drops to 0.75rem below 420px on the transport."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The h2 of an empty, no-match, or missing-record state, and the song-finder head."
+      },
+      "entry": {
+        "displayName": "Entry",
+        "purpose": "The name of a tab in a listing or a search hit; one step above body because the title is what the eye scans for."
+      }
+    },
+    "fonts": [
+      {
+        "family": "Inconsolata",
+        "licence": "SIL Open Font License (ui/src/assets/fonts/OFL.txt)",
+        "file": "ui/src/assets/fonts/inconsolata-latin.woff2",
+        "axes": "wght 400-700, wdth 75-100",
+        "note": "Vendored latin subset so the surface works with no network at rehearsal. The width axis is a functional tool: it narrows to 75% to hold the 14px legible floor."
+      }
+    ],
+    "shadows": [],
+    "shadowPolicy": "None, app-wide. The shipped build contains no box-shadow, blur, scrim, backdrop-filter, or <dialog> modal on any route. Depth is opacity recession (0.32 while playing, 0.18 behind an open panel) plus 1px Rule Green hairlines and field underlines.",
+    "motion": [
+      {
+        "name": "tf-ease",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The world's only easing curve (--tf-ease)."
+      },
+      {
+        "name": "state-color",
+        "value": "color 0.18s var(--tf-ease)",
+        "purpose": "Hover and live-state colour shifts on keys and legends."
+      },
+      {
+        "name": "chrome-recede",
+        "value": "opacity 0.4s var(--tf-ease)",
+        "purpose": "Header block fading to 0.32 while the transport runs."
+      },
+      {
+        "name": "panel-recede",
+        "value": "opacity 0.25s var(--tf-ease)",
+        "purpose": "Title and metadata dropping to 0.18 behind an open lists panel."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "@media (prefers-reduced-motion: reduce) { transition: none }",
+        "purpose": "All surface transitions are disabled outright."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "brand",
+        "value": "max-width: 520px",
+        "purpose": "Nav brand shortens from GUITAR TABS to TABS; bar gap collapses to 0."
+      },
+      {
+        "name": "narrow",
+        "value": "max-width: 420px",
+        "purpose": "Transport tightens gaps and drops to 0.75rem."
+      },
+      {
+        "name": "short",
+        "value": "height < 520px (JS)",
+        "purpose": "Playing surface header collapses to one inline line; metadata list dropped."
+      },
+      {
+        "name": "wide",
+        "value": "min-width: 900px",
+        "purpose": "Gutter 0.75rem to 1.5rem; playing-surface title 1.375rem to 1.75rem."
+      }
+    ],
+    "constraints": [
+      {
+        "name": "legible floor",
+        "value": "14px",
+        "purpose": "Grid never renders below this by default; below it the tab is panned, not shrunk."
+      },
+      {
+        "name": "reading cap",
+        "value": "20px",
+        "purpose": "Grid never exceeds this at any width."
+      },
+      {
+        "name": "tap target",
+        "value": "44px min-height",
+        "purpose": "Every interactive element on the surface."
+      },
+      {
+        "name": "reading anchor",
+        "value": "top: 38vh",
+        "purpose": "Fixed 1px lime current-line rule, shown only while running."
+      },
+      {
+        "name": "page cap",
+        "value": "max-width: 56rem",
+        "purpose": "Measure limit on .page. Never centred; the left edge stays on the gutter."
+      },
+      {
+        "name": "gate cap",
+        "value": "max-width: 26rem",
+        "purpose": "The login form only; still left-pinned."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "App Nav",
+      "kind": "nav",
+      "refersTo": "legend",
+      "description": "Sticky one-line bar of legends closed by a hairline seam. The brand is bone at 700 and shortens to TABS below 520px; the nav is not rendered on the playing surface.",
+      "html": "<header class=\"ds-nav\"><div class=\"ds-bar\"><a class=\"ds-legend ds-brand\" href=\"#\"><span class=\"ds-full\">GUITAR TABS</span><span class=\"ds-short\">TABS</span></a><a class=\"ds-legend\" href=\"#\">[ NEW ]</a><button class=\"ds-legend\">[ LISTS ]</button><button class=\"ds-legend\">[ MORE ]</button></div><div class=\"ds-seam\"></div></header>",
+      "css": ".ds-nav { position: sticky; top: 0; z-index: 50; background: var(--tf-ground, #0b0c0a); font-family: Inconsolata, ui-monospace, monospace; } .ds-bar { display: flex; align-items: center; gap: 0.15rem; padding: 0 0.75rem; } .ds-legend { display: inline-flex; align-items: center; min-height: 44px; padding: 0.6rem 0.4rem; font-family: inherit; font-size: 0.9375rem; line-height: 1.9; white-space: nowrap; color: var(--tf-legend, #8b917c); background: none; border: 0; border-radius: 0; text-decoration: none; cursor: pointer; transition: color 0.18s cubic-bezier(0.16,1,0.3,1); } .ds-legend:hover { color: var(--tf-ink, #e8e6dd); } .ds-legend:focus-visible { outline: 1px solid var(--tf-live, #d0eb55); outline-offset: 2px; } .ds-brand { font-weight: 700; color: var(--tf-ink, #e8e6dd); letter-spacing: 0.02em; padding-left: 0; margin-right: auto; } .ds-short { display: none; } .ds-seam { height: 1px; background: var(--tf-rule, #1e2119); } @media (max-width: 520px) { .ds-bar { gap: 0; } .ds-full { display: none; } .ds-short { display: inline; } }"
+    },
+    {
+      "name": "Legend (the app's only button)",
+      "kind": "button",
+      "refersTo": "legend",
+      "description": "One class carries every control in the app, with first-class states: primary (bone 700), working (lime, outranks disabled), live, alarm (coral on hover), destroy (coral at rest), disabled (faint).",
+      "html": "<div class=\"ds-legend-row\"><button class=\"ds-legend ds-legend-primary\">[ SAVE ]</button><button class=\"ds-legend ds-legend-working\" disabled>[ SAVING ]</button><button class=\"ds-legend ds-legend-alarm\">[ DELETE ]</button><button class=\"ds-legend ds-legend-destroy\">[ DELETE ]</button><button class=\"ds-legend\" disabled>[ KEEP IT ]</button></div>",
+      "css": ".ds-legend-row { display: flex; flex-wrap: wrap; align-items: center; font-size: 0.9375rem; font-family: Inconsolata, ui-monospace, monospace; } .ds-legend-row > .ds-legend:first-child { padding-left: 0; } .ds-legend { display: inline-flex; align-items: center; min-height: 44px; padding: 0.6rem 0.4rem; font-family: Inconsolata, ui-monospace, monospace; font-size: 0.9375rem; font-weight: 400; line-height: 1.9; white-space: nowrap; color: var(--tf-legend, #8b917c); background: none; border: 0; border-radius: 0; cursor: pointer; transition: color 0.18s cubic-bezier(0.16,1,0.3,1); } .ds-legend:hover { color: var(--tf-ink, #e8e6dd); } .ds-legend:focus-visible { outline: 1px solid var(--tf-live, #d0eb55); outline-offset: 2px; } .ds-legend-primary { color: var(--tf-ink, #e8e6dd); font-weight: 700; } .ds-legend-alarm:hover { color: var(--tf-alarm, #ff8b7a); } .ds-legend-destroy { color: var(--tf-alarm, #ff8b7a); } .ds-legend[disabled] { color: var(--tf-faint, #7c8370); cursor: default; } .ds-legend-working, .ds-legend-working[disabled] { color: var(--tf-live, #d0eb55); }"
+    },
+    {
+      "name": "Library Listing",
+      "kind": "custom",
+      "refersTo": "list-entry",
+      "description": "The library is a file listing, not cards: each entry states its own column count in tabular figures, with the credit wrapped beneath.",
+      "html": "<ul class=\"ds-listing\"><li><a class=\"ds-entry\" href=\"#\"><span class=\"ds-name\">Blackbird</span><span class=\"ds-cols\">84 cols</span><span class=\"ds-credit\">The Beatles &middot; The White Album</span></a></li><li><a class=\"ds-entry\" href=\"#\"><span class=\"ds-name\">Wish You Were Here</span><span class=\"ds-cols\">62 cols</span><span class=\"ds-credit\">Pink Floyd</span></a></li></ul>",
+      "css": ".ds-listing { list-style: none; margin: 0; padding: 0; font-family: Inconsolata, ui-monospace, monospace; } .ds-entry { display: grid; grid-template-columns: 1fr max-content; align-items: baseline; column-gap: 1rem; padding: 0.5rem 0; min-height: 44px; color: var(--tf-ink, #e8e6dd); text-decoration: none; transition: color 0.18s cubic-bezier(0.16,1,0.3,1); } .ds-entry:hover .ds-name, .ds-entry:focus-visible .ds-name { color: var(--tf-live, #d0eb55); } .ds-name { font-size: 1.0625rem; line-height: 1.5; } .ds-cols { font-size: 0.8125rem; color: var(--tf-faint, #7c8370); font-variant-numeric: tabular-nums; white-space: nowrap; } .ds-credit { grid-column: 1 / -1; font-size: 0.8125rem; color: var(--tf-faint, #7c8370); line-height: 1.4; }"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "The app-wide form field: bare text on the ground under a faint label, with a 1px Rule Green underline that turns lime on focus. The caret is always lime.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-label\">title</span><input class=\"ds-input\" type=\"text\" placeholder=\"song title\"></label>",
+      "css": ".ds-field { display: block; margin-bottom: 1.4rem; font-family: Inconsolata, ui-monospace, monospace; } .ds-label { display: block; font-size: 0.8125rem; color: var(--tf-faint, #7c8370); margin-bottom: 0.1rem; } .ds-input { width: 100%; font-family: inherit; font-size: 0.9375rem; line-height: 1.4; color: var(--tf-ink, #e8e6dd); caret-color: var(--tf-live, #d0eb55); background: none; border: 0; border-bottom: 1px solid var(--tf-rule, #1e2119); border-radius: 0; padding: 0.55rem 0; min-height: 44px; appearance: none; } .ds-input::placeholder { color: var(--tf-faint, #7c8370); } .ds-input:focus { outline: 0; border-bottom-color: var(--tf-live, #d0eb55); }"
+    },
+    {
+      "name": "Inline Confirmation",
+      "kind": "custom",
+      "refersTo": "legend-destroy",
+      "description": "Destructive confirmation as an in-flow panel: a dash rule, a sentence naming the thing in bone, then keep and destroy legends. No dialog, no scrim.",
+      "html": "<div class=\"ds-confirm\"><div class=\"ds-rule\">------------------------------------------------------------</div><p class=\"ds-prose\">Delete <span class=\"ds-typed\">Blackbird</span>? This cannot be undone.</p><div class=\"ds-legend-row\"><button class=\"ds-legend\">[ KEEP IT ]</button><button class=\"ds-legend ds-legend-destroy\">[ DELETE ]</button></div></div>",
+      "css": ".ds-confirm { font-family: Inconsolata, ui-monospace, monospace; margin-top: 2.5rem; } .ds-rule { width: 100%; overflow: hidden; white-space: nowrap; color: var(--tf-rule, #1e2119); font-size: 0.875rem; line-height: 1; user-select: none; } .ds-prose { max-width: 62ch; font-size: 0.9375rem; line-height: 1.6; color: var(--tf-legend, #8b917c); margin: 0.9rem 0 0.2rem; } .ds-typed { color: var(--tf-ink, #e8e6dd); } .ds-legend-row { display: flex; flex-wrap: wrap; align-items: center; } .ds-legend-row > .ds-legend:first-child { padding-left: 0; } .ds-legend { display: inline-flex; align-items: center; min-height: 44px; padding: 0.6rem 0.4rem; font-family: inherit; font-size: 0.9375rem; line-height: 1.9; color: var(--tf-legend, #8b917c); background: none; border: 0; border-radius: 0; cursor: pointer; transition: color 0.18s cubic-bezier(0.16,1,0.3,1); } .ds-legend:hover { color: var(--tf-ink, #e8e6dd); } .ds-legend:focus-visible { outline: 1px solid var(--tf-live, #d0eb55); outline-offset: 2px; } .ds-legend-destroy { color: var(--tf-alarm, #ff8b7a); }"
+    },
+    {
+      "name": "Lists Panel",
+      "kind": "card",
+      "refersTo": "panel-row",
+      "description": "Panels in either the nav or the playing surface: square, shadowless, on the same ground, bracketed by typed dash runs instead of borders, every label starting on one 2.5em box column.",
+      "html": "<div class=\"ds-panel\"><div class=\"ds-rule\">------------------------------------------------------------</div><button class=\"ds-row\"><span class=\"ds-box\">[x]</span>Favorites</button><button class=\"ds-row\"><span class=\"ds-box\">[ ]</span>Standards</button><div class=\"ds-rule\">------------------------------------------------------------</div><form class=\"ds-create\"><span class=\"ds-box\">[+]</span><input class=\"ds-input\" type=\"text\" placeholder=\"new list\"></form><div class=\"ds-rule\">------------------------------------------------------------</div></div>",
+      "css": ".ds-panel { width: 16rem; max-width: calc(100vw - 1.5rem); background: var(--tf-ground, #0b0c0a); font-family: Inconsolata, ui-monospace, monospace; border-radius: 0; } .ds-rule { box-sizing: border-box; width: 100%; overflow: hidden; white-space: nowrap; color: var(--tf-rule, #1e2119); font-size: 0.875rem; line-height: 1; padding: 0.25rem 0.75rem; user-select: none; } .ds-row { display: block; box-sizing: border-box; width: 100%; text-align: left; font-family: inherit; font-size: 0.875rem; color: var(--tf-ink, #e8e6dd); background: none; border: 0; border-radius: 0; padding: 0.55rem 0.75rem; min-height: 44px; cursor: pointer; } .ds-row:hover { color: var(--tf-live, #d0eb55); } .ds-row:focus-visible { outline: 1px solid var(--tf-live, #d0eb55); outline-offset: -1px; } .ds-row[disabled] { color: var(--tf-faint, #7c8370); cursor: default; } .ds-box { display: inline-block; width: 2.5em; color: var(--tf-legend, #8b917c); } .ds-create { display: flex; align-items: center; font-size: 0.875rem; padding: 0.1rem 0.75rem 0.15rem; }"
+    },
+    {
+      "name": "Transport Bar",
+      "kind": "custom",
+      "refersTo": "key",
+      "description": "The signature component: a fixed bottom row where play state, speed, type size, and position are all set in the notation's own characters.",
+      "html": "<div class=\"ds-transport\"><button class=\"ds-key ds-key-play\">[ PLAY ]</button><div class=\"ds-speed\"><button class=\"ds-key\">[-]</button><span class=\"ds-scale\">---|------</span><span class=\"ds-value\">13<span class=\"ds-unit\">lpm</span></span><button class=\"ds-key\">[+]</button></div><div class=\"ds-size\"><button class=\"ds-key\">[A-]</button><button class=\"ds-key\">[A+]</button></div><span class=\"ds-counter\">003/128</span></div>",
+      "css": ".ds-transport { display: flex; align-items: center; gap: 0.75rem; padding: 0.35rem 0.6rem; background: var(--tf-ground, #0b0c0a); border-top: 1px solid var(--tf-rule, #1e2119); font-family: Inconsolata, ui-monospace, monospace; font-size: 0.8125rem; color: var(--tf-legend, #8b917c); } .ds-key { font-family: inherit; font-size: inherit; color: var(--tf-legend, #8b917c); background: none; border: 0; border-radius: 0; padding: 0 0.35rem; min-height: 44px; cursor: pointer; transition: color 0.18s cubic-bezier(0.16,1,0.3,1); } .ds-key:hover { color: var(--tf-ink, #e8e6dd); } .ds-key:focus-visible { outline: 1px solid var(--tf-live, #d0eb55); outline-offset: 2px; } .ds-key-play { font-weight: 700; letter-spacing: 0.02em; color: var(--tf-ink, #e8e6dd); padding-left: 0; min-width: 5.5em; text-align: left; } .ds-key-play:active { color: var(--tf-live, #d0eb55); } .ds-speed { display: flex; align-items: center; gap: 0.3rem; } .ds-scale { color: var(--tf-faint, #7c8370); letter-spacing: 0.06em; white-space: nowrap; } .ds-value { font-variant-numeric: tabular-nums; } .ds-unit { color: var(--tf-faint, #7c8370); margin-left: 0.4em; } .ds-size { display: flex; margin-left: auto; } .ds-counter { font-variant-numeric: tabular-nums; color: var(--tf-faint, #7c8370); }"
+    },
+    {
+      "name": "Header Block",
+      "kind": "nav",
+      "refersTo": "legend",
+      "description": "Controls row, title, and a two-column metadata list that reports the surface's own fit decision.",
+      "html": "<header class=\"ds-file\"><div class=\"ds-controls\"><a class=\"ds-legend\" href=\"#\">[ &lt;- LIBRARY ]</a><a class=\"ds-legend\" href=\"#\">[ LYRICS ]</a><a class=\"ds-legend\" href=\"#\">[ EDIT ]</a><a class=\"ds-legend\" href=\"#\">[ LISTS ]</a></div><h1 class=\"ds-title\">Blackbird</h1><dl class=\"ds-meta\"><dt>artist</dt><dd>The Beatles</dd><dt>grid</dt><dd>84 cols &middot; 128 lines &middot; narrowed</dd></dl></header>",
+      "css": ".ds-file { font-family: Inconsolata, ui-monospace, monospace; background: var(--tf-ground, #0b0c0a); padding: 0.5rem 0.75rem 1.1rem; border-bottom: 1px solid var(--tf-rule, #1e2119); } .ds-controls { display: flex; flex-wrap: nowrap; align-items: center; margin-bottom: 0.9rem; } .ds-controls .ds-legend:first-child { padding-left: 0; } .ds-title { font-family: inherit; font-size: 1.375rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: var(--tf-ink, #e8e6dd); margin: 0 0 0.6rem; } .ds-meta { display: grid; grid-template-columns: max-content 1fr; gap: 0.1rem 1.25rem; margin: 0; font-size: 0.8125rem; } .ds-meta dt { color: var(--tf-faint, #7c8370); } .ds-meta dd { margin: 0; color: var(--tf-legend, #8b917c); }"
+    },
+    {
+      "name": "Tab Grid",
+      "kind": "custom",
+      "refersTo": "grid",
+      "description": "The notation itself. Font size is fitted from the widest line; nothing may alter character advance or wrapping.",
+      "html": "<div class=\"ds-frame\"><pre class=\"ds-tab\">e|-----------------0-----------------|\nB|-------------0-------0-------------|\nG|---------0---------------0---------|\nD|-----2-----------------------2-----|</pre><div class=\"ds-anchor\"></div></div>",
+      "css": ".ds-frame { position: relative; padding: 1.1rem 0.75rem 0; overflow-x: auto; overscroll-behavior-x: contain; cursor: pointer; background: var(--tf-ground, #0b0c0a); -webkit-tap-highlight-color: transparent; } .ds-tab { margin: 0; padding: 0; width: max-content; font-family: Inconsolata, ui-monospace, monospace; font-size: 16px; line-height: 1.35; letter-spacing: normal; word-spacing: normal; font-variant-ligatures: none; font-feature-settings: \"liga\" 0, \"calt\" 0; tab-size: 8; white-space: pre; background: none; border: 0; color: var(--tf-ink, #e8e6dd); } .ds-tab::selection { background: var(--tf-live, #d0eb55); color: var(--tf-ground, #0b0c0a); } .ds-anchor { position: absolute; left: 0; right: 0; top: 38%; height: 1px; background: var(--tf-live, #d0eb55); opacity: 0.42; pointer-events: none; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Tab File",
+    "overview": "The plaintext tab is the whole design language. Not a theme applied to a tab, but the notation itself promoted to a visual system: the character grid sets the type size, bar pipes and dash runs are the only rules, controls are legends typed in square brackets, and one lime marks exactly what is live. The world refuses the arrangement every tab site ships — the card, the icon toolbar, the chrome that competes with the song.\n\nDensity is a consequence of the job, not a style. The governing scene is a phone on a music stand at arm's length with both hands on the instrument, so the playing surface spends its whole width on the grid, holds a 14px legible floor, and puts every control on a 44px target that never needs to be aimed at. The signature move is that the reading surface *is* the stop key: tapping the tab anywhere toggles the scroll. Away from the grid, the same file discipline holds: the library is a listing where each entry states its own column count, forms are labelled lines with a hairline under each field, and a destructive confirmation opens **in flow** rather than as a modal over a dimmed page.\n\nThe ground is near-black and the ink is bone, because dim rehearsal light is the normal case. Everything that is not the notation sits in one of three muted greens and steps back further while the transport runs. Nothing is raised, tinted, or shadowed anywhere in the app.",
+    "keyCharacteristics": [
+      "Monospace-only: one face, Inconsolata, vendored and offline-capable, with no framework CSS beneath it.",
+      "The widest line in the tab decides the type size for the playing surface.",
+      "Flat and borderless by intent; the only strokes are 1px hairline seams and typed dash runs.",
+      "Lime `#d0eb55` is state, never decoration — which is why a screen's primary action is bone at weight 700, not lime.",
+      "Bracketed word-legends instead of glyph icons, everywhere."
+    ],
+    "rules": [
+      {
+        "name": "The One Live Colour Rule",
+        "body": "Lime means live. If an element is not running, focused, selected, hovered, or currently held, it is not lime. A screen's primary action is therefore Bone at weight 700 — never lime, because it is not running yet.",
+        "section": "colors"
+      },
+      {
+        "name": "The Working Reads Live Rule",
+        "body": "A control disabled *because it is working* outranks disabled: it is the one thing on the screen that is actually running, so it reads lime. `.legend.working` is declared after `.legend[disabled]` at equal specificity so it wins the cascade. Ordinary disabled controls fall to Faint Green.",
+        "section": "colors"
+      },
+      {
+        "name": "The Resting Floor Rule",
+        "body": "Text that rests on screen sits at Faint Green (4.98:1) or above. Receded Green is legal only inside a transient running state and never for a label the player must read to act.",
+        "section": "colors"
+      },
+      {
+        "name": "The Single Ground Rule",
+        "body": "There is one background value in the app. Depth is never expressed by tinting a panel lighter than the ground.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fit Rule",
+        "body": "The widest line in the tab sets the type size for the grid. The advance width of the face actually rendering is measured off the page — never assumed — and re-fit on resize, orientation change, and font load. The fitted size is clamped to a **20px reading cap**; a wide screen shows a song, not a billboard.",
+        "section": "typography"
+      },
+      {
+        "name": "The Legible Floor Rule",
+        "body": "14px is the floor. If the tab cannot fit at 14px, the variable width axis narrows to 75% to buy columns back; if it still will not fit, the grid is **panned, not shrunk** — the surface says \"turn the device for full size\" and lets the player scroll horizontally. Sub-floor sizes exist only as the player's explicit `[A-]` choice. Shipped: 14px at 390px portrait (width-narrowed), 19.45px at 844px landscape, 20px at 1440px desktop.",
+        "section": "typography"
+      },
+      {
+        "name": "The Typed Control Rule",
+        "body": "Controls are words in square brackets set in the grid face — `[ PLAY ]`, `[ STOP ]`, `[ SAVE ]`, `[ SAVING ]`, `[ DELETE LIST ]`, `[ KEEP IT ]`, `[ CLEAR SEARCH ]`, `[-]`, `[+]`, `[A-]`, `[A+]`, `[x]`, `[>]`, `[ ]`. A control's verb changes to state what it is doing while it works. Numbers that change live are fixed-width: `tabular-nums` plus zero-padded slots (`003/128`), so nothing reflows while the player is reading.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Gutter Rule",
+        "body": "Nav, page, header, and grid share the same left edge at every size. Nothing in this world is centred; width caps limit measure, they never float content away from the gutter.",
+        "section": "layout"
+      },
+      {
+        "name": "The Untouched Advance Rule",
+        "body": "Nothing applied to the grid — rendered or being edited — may alter character advance or wrapping: no letter-spacing, no word-spacing, no ligatures, no wrapping. `white-space: pre` and `tab-size: 8` are inviolable; column alignment is the product.",
+        "section": "layout"
+      },
+      {
+        "name": "The Recede, Don't Cover Rule",
+        "body": "Chrome yields to the grid by fading, never by sliding away or being covered by a scrim. Transitions run at 0.4s (chrome) / 0.25s (panel) / 0.18s (colour) on `cubic-bezier(0.16, 1, 0.3, 1)`, and all transitions and animations are disabled app-wide under `prefers-reduced-motion: reduce`.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No Lift Rule",
+        "body": "Nothing in this world is lifted. If a surface needs to read as separate, it recedes what is behind it or draws one hairline — it does not cast a shadow, and it does not open as a modal dialog over a dimmed page.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set every new element in Inconsolata via `var(--tf-grid)`. This world has exactly one face and no framework CSS beneath it — author every new element from the shared base in `tabfile.scss`.",
+      "Do reach for the shared classes first: `.page`, `.page-head`, `.legend`, `.legend-row`, `.rule`, `.seam`, `.field`, `.prose`, `.count`, `.alarm-text`. A new view should add layout, not repaint the primitives.",
+      "Do label controls as bracketed words (`[ EDIT ]`, `[x]`) rather than glyphs.",
+      "Do give every interactive element `min-height: 44px`; the player is not aiming.",
+      "Do make a screen's primary action `.legend.primary` (Bone, 700) and a working control `.legend.working` (lime), so weight carries emphasis and lime stays reserved for live.",
+      "Do keep resting text at Faint Green (`#7c8370`, 4.98:1) or above, and reserve Receded Green for transient running states only.",
+      "Do draw separators as typed dash runs inside components, and reserve 1px Rule Green hairlines for full-width structural seams and field underlines.",
+      "Do use `tabular-nums` and fixed-width zero-padded slots for any number that changes while the player is reading.",
+      "Do state a surface's own constraints (`narrowed`, `84 cols`, `turn the device for full size`) instead of silently degrading, and say what was not changed when something fails.",
+      "Do open confirmations and finders in flow, and scope every component's styles.",
+      "Do disable transitions under `prefers-reduced-motion: reduce`."
+    ],
+    "donts": [
+      "Don't introduce a second font family, a proportional face, or a system display face.",
+      "Don't add a corner radius, a filled button, a card, or a shadow — this world has no radius and no `box-shadow` at all. A library or list is a listing, never a card grid.",
+      "Don't tint a panel lighter than the ground to signal layering; recede what is behind it instead.",
+      "Don't open a `<dialog>` modal, a scrim, or an overlay for a confirmation; the flow happens in place.",
+      "Don't use lime for anything that is not live, working, focused, selected, hovered, or held — including a primary action that has not started yet.",
+      "Don't centre a page or float it off the gutter; cap the measure and keep the left edge.",
+      "Don't apply letter-spacing, word-spacing, ligatures, or wrapping to the tab grid, in the reader or the editor; column alignment is inviolable.",
+      "Don't let the grid render below 14px by default or above 20px at any width.",
+      "Don't ship a glyph-icon toolbar, an icon font, an eyebrow, or a kicker above a heading; a heading stands alone above its prose.",
+      "Don't ship an unscoped element selector from a component; base styling belongs in `tabfile.scss` and everything else is `<style scoped>`."
+    ]
+  }
+}

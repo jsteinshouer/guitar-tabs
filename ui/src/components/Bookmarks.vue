@@ -1,145 +1,210 @@
-<template>
-<details role="list" dir="rtl" class="bookmark-lists">
-    <summary aria-haspopup="listbox" role="button" class="contrast"><i :class="isFavorite ? 'bi bi-bookmark-star-fill' : 'bi bi-bookmark-star'"></i></summary>
-    <ul role="listbox">
-        <li > 
-            
-            <a href="#" @click="toggleFavorite"><i :class="isFavorite ? 'bi bi-star-fill' : 'bi bi-star'"></i>Favorites</a>
-        </li>
-        <template v-for="list in customLists">
-            <li> 
-                <a href="#" @click="toggleList(list.id)"> <i :class="isListChecked(list.id) ? 'bi bi-check-square' : 'bi bi-square'" class="checkbox"></i>{{ list.title }}</a>
-            </li>
-        </template>
-        <li class="create"> 
-        <a href="#" @click="openListDialog=true"><i class="bi bi-plus-lg"></i> Create</a>
-        </li>
-    </ul>
-</details>
-
-<dialog :open="openListDialog" id="create-list-dialog">
-    <article>
-        <h3>Create a new list!</h3>
-        <p>
-            <input type="text" id="title" name="title" placeholder="Title" required v-model="createlistTitle">
-        </p>
-        <footer>
-            <div class="grid">
-                <div><button role="button" class="secondary" @click="openListDialog=false">Cancel</button></div>
-                <div><button role="button" @click="createList">Confirm</button></div>
-            </div>
-        </footer>
-    </article>
-</dialog>
-</template>
-
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import store from '../store'
 
-const props = defineProps( ["tab"] )
+const props = defineProps( [ 'tab' ] )
 
-const openListDialog = ref(false);
-const createlistTitle = ref('');
-const isFavorite = ref(false);
-let favoriteslist = store.getFavoriteslist();
-const tab = props.tab
-isFavorite.value = favoriteslist.tabs.find( (item) => item.id == tab.id)
+const open = ref( false )
 
-const customLists = computed(() => { 
-    return store.state.lists.filter( (item) => item.title != "Favorites") 
-})
+const emit = defineEmits( [ 'open' ] )
 
-async function toggleFavorite() {
-	if ( isFavorite.value ) {
-		await store.removeListItem( favoriteslist.id, tab.id );
-	}
-	else {
-		favoriteslist.tabs.push(tab);
-		await store.addListItem( favoriteslist.id, tab.id );
-	}
+watch( open, ( isOpen ) => emit( 'open', isOpen ) )
+const newTitle = ref( '' )
+const creating = ref( false )
+const favorites = ref( null )
+const error = ref( '' )
 
-	isFavorite.value = !isFavorite.value;
-}
+const lists = computed( () => store.state.lists.filter( ( item ) => item.title != 'Favorites' ) )
 
-async function createList() {
-	if ( createlistTitle.value != '' ) {
-		store.createList( createlistTitle.value )
-		openListDialog.value = false
-	}
+const isFavorite = computed( () => holds( favorites.value ) )
+
+/** Favorites is created on demand, so it may not exist until this resolves. */
+onMounted( async () => {
+    try {
+        favorites.value = await store.getFavoriteslist()
+    }
+    catch ( e ) {
+        error.value = 'Lists are unavailable right now.'
+    }
+} )
+
+function holds( list ) {
+    return !!( list && list.tabs && list.tabs.find( ( item ) => item.id == props.tab.id ) )
 }
 
-function isListChecked( listID ) {
-	const thisList = store.state.lists.find( (item) => item.id == listID )
-	return ( thisList.tabs && thisList.tabs.find( (item) => item.id == tab.id) ) ? true : false
-}
-
-async function toggleList( listID ) {
-	const thisList = store.state.lists.find( (item) => item.id == listID )
-	if ( isListChecked( listID ) ) {
-		await store.removeListItem( listID, tab.id );
-	}
-	else {
-        if (!thisList.tabs) {
-            thisList.tabs = []
-        }
-		thisList.tabs.push(tab);
-		await store.addListItem( listID, tab.id );
-	}
-}
-</script>
-
-<style scoped>
-
-#create-list-dialog article {
-	width: 80% !important;
-    padding: 15px;
-	min-height: 325px;
-}
-.bi::before, [class^=bi-]::before, [class*=" bi-"]::before {
-    display: inline;
-}
-.bi::after, [class^=bi-]::after, [class*=" bi-"]::after {
-    display: inline;
-}
-.bookmark-lists ul li {
-    text-align: left;
-}
-.bookmark-lists ul li i {
-    margin-right: 15px;
-}
-.checkbox {
-    float: left;
-}
-li.create {
-    border-top-width: 1px;
-    border-top-color: whitesmoke;
-    border-top-style: solid;
-    margin-top: 5px;
-}
-@media (max-width: 992px) {
-    .bi-bookmark-star{
-        margin-left: 1px !important;
+async function toggleList( list ) {
+    if ( !list ) return
+    error.value = ''
+    const held = holds( list )
+    try {
+        if ( held ) await store.removeListItem( list.id, props.tab.id )
+        else await store.addListItem( list.id, props.tab.id )
+        favorites.value = store.state.lists.find( ( item ) => item.id == favorites.value?.id ) || favorites.value
+    }
+    catch ( e ) {
+        error.value = held ? 'Could not remove it from that list.' : 'Could not add it to that list.'
     }
 }
 
-.bookmark-lists ul {
-    width: 300px;
+async function createList() {
+    const title = newTitle.value.trim()
+    if ( !title || creating.value ) return
+    creating.value = true
+    error.value = ''
+    try {
+        const created = await store.createList( title )
+        newTitle.value = ''
+        if ( created ) await store.addListItem( created.id, props.tab.id )
+    }
+    catch ( e ) {
+        error.value = 'Could not create that list.'
+    }
+    finally {
+        creating.value = false
+    }
 }
-.bi-bookmark-star, .bi-bookmark-star-fill { 
-    margin-left: 15px;
+</script>
+
+<template>
+<span class="lists">
+    <button
+        class="legend"
+        :class="{ live: isFavorite }"
+        :aria-expanded="open"
+        @click="open = !open"
+    >[ {{ isFavorite ? 'SAVED' : 'LISTS' }} ]</button>
+
+    <div class="panel" v-if="open">
+        <div class="rule" aria-hidden="true">------------------------------------------------------------</div>
+        <button class="row" @click="toggleList( favorites )" :disabled="!favorites">
+            <span class="box">{{ isFavorite ? '[x]' : '[ ]' }}</span>Favorites
+        </button>
+        <button class="row" v-for="list in lists" :key="list.id" @click="toggleList( list )">
+            <span class="box">{{ holds( list ) ? '[x]' : '[ ]' }}</span>{{ list.title }}
+        </button>
+
+        <div class="rule" aria-hidden="true">------------------------------------------------------------</div>
+        <form class="create" @submit.prevent="createList">
+            <span class="box">[+]</span>
+            <input
+                type="text"
+                v-model="newTitle"
+                placeholder="new list"
+                aria-label="Name a new list"
+                :disabled="creating"
+            >
+        </form>
+
+        <p class="error" v-if="error">{{ error }}</p>
+        <div class="rule" aria-hidden="true">------------------------------------------------------------</div>
+    </div>
+</span>
+</template>
+
+<style scoped>
+.lists { position: relative; }
+
+.legend {
+    font-family: var(--tf-grid);
+    font-size: 0.9375rem;
+    white-space: nowrap;
+    color: var(--tf-legend);
+    background: none;
+    border: 0;
+    padding: 0.6rem 0.5rem 0.6rem 0;
+    min-height: 44px;
+    cursor: pointer;
+    transition: color 0.18s var(--tf-ease);
 }
 
+.legend:hover { color: var(--tf-ink); }
+.legend.live { color: var(--tf-live); }
+.legend:focus-visible { outline: 1px solid var(--tf-live); outline-offset: 2px; }
 
-button,  [role=button] {
-    padding: 5px;
-    /* margin: 1px; */
+.panel {
+    position: absolute;
+    top: 100%;
+    /* LISTS is the last legend in the row: open leftward so the panel
+       never pushes the document wider than the screen. */
+    right: 0;
+    left: auto;
+    z-index: 30;
+    /* Fixed width: the dash rules clip to the panel, they never size it. */
+    width: 16rem;
+    max-width: calc(100vw - 1.5rem);
+    padding: 0;
+    background: var(--tf-ground);
+    font-family: var(--tf-grid);
+}
+
+/* The world's own rule: a dash run, not a border. */
+.rule {
     width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--tf-rule);
+    font-size: 0.875rem;
+    line-height: 1;
+    padding: 0.25rem 0.75rem;
+    user-select: none;
 }
 
-details summary[role=button]:not(.outline).contrast::after {
-    background-image: var(--icon-chevron-button);
+.row {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--tf-ink);
+    background: none;
+    border: 0;
+    padding: 0.55rem 0.75rem;
+    min-height: 44px;
+    cursor: pointer;
 }
 
+.row:hover { color: var(--tf-live); }
+.row:focus-visible { outline: 1px solid var(--tf-live); outline-offset: -1px; }
+.row[disabled] { color: var(--tf-faint); cursor: default; }
 
+.box {
+    display: inline-block;
+    width: 2.5em;
+    color: var(--tf-legend);
+}
+
+.create {
+    display: flex;
+    align-items: center;
+    /* Same size as a row, so the 2.5em box resolves to the same advance
+       and both labels sit in one column. */
+    font-size: 0.875rem;
+    padding: 0.1rem 0.75rem 0.15rem;
+}
+
+.create input {
+    flex: 1;
+    min-width: 0;
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--tf-ink);
+    caret-color: var(--tf-live);
+    background: none;
+    border: 0;
+    padding: 0.5rem 0;
+}
+
+.create input::placeholder { color: var(--tf-faint); }
+.create input:focus { outline: 0; }
+.create input:focus-visible { outline: 0; }
+
+
+.error {
+    margin: 0.25rem 0 0;
+    padding: 0 0.75rem 0.4rem;
+    font-size: 0.8125rem;
+    color: var(--tf-alarm);
+}
 </style>

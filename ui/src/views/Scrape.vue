@@ -1,29 +1,49 @@
-<template>
-    <div class="container">
-        <p>This will check the Genius API for song matches to your tab titles. Do you want to continue?</p>
-        <div class="grid">
-            <div><button :aria-busy="busy" :disabled="busy" @click.prevent="scrapeMetadata">Continue</button></div>
-            <div><button :disabled="busy" class="secondary" @click.prevent="$router.go(-1)">Cancel</button></div>
-        </div>
-    </div>
-</template>
-
 <script setup>
 import { ref } from 'vue'
-import store from '../store'
 import { useRouter } from 'vue-router'
-const router = useRouter()
-const busy = ref(false)
+import store from '../store'
 
-async function scrapeMetadata() {
+const router = useRouter()
+const busy = ref( false )
+const error = ref( '' )
+
+async function run() {
     busy.value = true
-    await store.scrapeMetadata()
-    router.push({ path: "/" })
+    error.value = ''
+    try {
+        await store.scrapeMetadata()
+        router.push( { path: '/' } )
+    }
+    catch ( e ) {
+        error.value = 'The song lookup failed. Your tabs are unchanged — check that a Genius API key is configured.'
+    }
+    finally {
+        busy.value = false
+    }
 }
 </script>
 
+<template>
+<div class="page">
+    <h1>Find song data</h1>
+    <p class="prose">
+        This checks the Genius catalogue for songs matching your tab titles, and fills in
+        artist, album, and a lyrics link where it finds a confident match. It only adds
+        information — your tab content is never touched.
+    </p>
+
+    <p class="alarm-text" v-if="error">{{ error }}</p>
+
+    <div class="legend-row">
+        <button class="legend primary" :class="{ working: busy }" @click="run" :disabled="busy">
+            {{ busy ? '[ LOOKING ]' : '[ RUN IT ]' }}
+        </button>
+        <button class="legend" @click="$router.push('/')" :disabled="busy">[ NOT NOW ]</button>
+    </div>
+</div>
+</template>
+
 <style scoped>
-div.container {
-    margin-top: 200px !important;
-}
+.prose { margin: 0.6rem 0 1.4rem; }
+.alarm-text { margin-bottom: 1rem; }
 </style>
