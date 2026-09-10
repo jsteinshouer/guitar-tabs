@@ -81,22 +81,24 @@ async function scrapeMetadata( tab ) {
     state.myTabs = response.data;
 }
 
-function getFavoriteslist() {
+async function getFavoriteslist() {
     let favoritesList = state.lists.find((element) => element.title == "Favorites")
     if ( !favoritesList ) {
-        favoritesList = createFavoritesList()
+        favoritesList = await createFavoritesList()
     }
     return favoritesList;
 }
 
 async function createList( title ) {
-    const response = await fetchHelper.post("/api/list", {
+    await fetchHelper.post("/api/list", {
         title: title
     });
 
-    state.lists.push( response.data );
+    // Reload rather than pushing the response: it carries no tabs array, and the
+    // next lookup would read .tabs off undefined.
+    await loadLists();
 
-    return response.data;
+    return state.lists.find( (item) => item.title == title );
 }
 async function createFavoritesList() {
 
@@ -106,14 +108,14 @@ async function createFavoritesList() {
 async function addListItem( listID, tabID ) {
     const response = await fetchHelper.post( `/api/list/${listID}/item/${tabID}`, {})
 
-    loadLists();
+    await loadLists();
 
     return response.data;
 }
 async function removeListItem( listID, tabID ) {
     const response = await fetchHelper.delete( `/api/list/${listID}/item/${tabID}`)
 
-    loadLists();
+    await loadLists();
 
     return response.data;
 }
@@ -127,7 +129,8 @@ async function deleteList( listID ) {
 
 async function loadLists() {
     const response = await fetchHelper.get( '/api/list' );
-    state.lists = response.data;
+    // Normalise tabs so every caller can read list.tabs without guarding.
+    state.lists = ( response.data || [] ).map( (list) => ({ ...list, tabs: list.tabs || [] }) );
 }
 
 

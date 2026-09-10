@@ -1,0 +1,228 @@
+/**
+ * The Tab File — the app's visual world.
+ *
+ * The notation is the design language: the grid sets the type, dash runs are the
+ * only rules, controls are bracketed words, and lime marks exactly what is live.
+ * See DESIGN.md at the project root; this file is its implementation.
+ *
+ * Font: Inconsolata (SIL OFL 1.1, see fonts/OFL.txt), variable wght 400-700 /
+ * wdth 75-100, latin subset, vendored so the app works with no network.
+ */
+
+@font-face {
+  font-family: "Inconsolata";
+  src: url("./fonts/inconsolata-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+:root {
+  --tf-ground: #0b0c0a;
+  --tf-ink: #e8e6dd;
+  --tf-legend: #8b917c;
+  --tf-faint: #7c8370;
+  --tf-receded: #5c6152;
+  --tf-rule: #1e2119;
+  --tf-live: #d0eb55;
+  --tf-alarm: #ff8b7a;
+
+  --tf-grid: "Inconsolata", ui-monospace, "SFMono-Regular", "Menlo", "Consolas",
+    "Liberation Mono", monospace;
+
+  --tf-gutter: 0.75rem;
+  --tf-tap: 44px;
+  --tf-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 900px) {
+  :root { --tf-gutter: 1.5rem; }
+}
+
+/* Base ------------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-size: 16px;
+  background: var(--tf-ground);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--tf-ground);
+  color: var(--tf-ink);
+  font-family: var(--tf-grid);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  scrollbar-color: var(--tf-rule) var(--tf-ground);
+  scrollbar-width: thin;
+}
+
+::selection { background: var(--tf-live); color: var(--tf-ground); }
+
+:focus-visible { outline: 1px solid var(--tf-live); outline-offset: 2px; }
+
+h1, h2, h3, h4 {
+  font-family: var(--tf-grid);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+h1 { font-size: 1.375rem; }
+h2 { font-size: 1.125rem; }
+
+p { margin: 0; }
+
+a { color: inherit; text-decoration: none; }
+
+/* Typed controls --------------------------------------------------------- */
+
+.legend {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tf-tap);
+  padding: 0.6rem 0.4rem;
+  font-family: var(--tf-grid);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.9;
+  white-space: nowrap;
+  color: var(--tf-legend);
+  background: none;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+  transition: color 0.18s var(--tf-ease);
+}
+
+.legend:hover { color: var(--tf-ink); }
+
+/* The primary action of a screen is weight and bone, never colour: lime is
+   reserved for what is actually live. */
+.legend.primary { color: var(--tf-ink); font-weight: 700; }
+
+/* An irreversible action wears the alarm at rest, not on hover. */
+.legend.alarm:hover { color: var(--tf-alarm); }
+.legend.destroy { color: var(--tf-alarm); }
+
+.legend[disabled] { color: var(--tf-faint); cursor: default; }
+
+/* Live outranks disabled: a control disabled *because it is working* is the
+   one thing on screen that is running, so it reads lime. Declared last so it
+   wins the cascade against [disabled] at equal specificity. */
+.legend.live,
+.legend.working,
+.legend.working[disabled] { color: var(--tf-live); }
+
+/* The row's first legend sits on the gutter. */
+.legend-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.9375rem;
+}
+
+.legend-row > .legend:first-child { padding-left: 0; }
+
+/* Rules: typed dash runs inside components, hairline seams for structure. */
+.rule {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--tf-rule);
+  font-size: 0.875rem;
+  line-height: 1;
+  user-select: none;
+}
+
+.seam { height: 1px; background: var(--tf-rule); border: 0; margin: 0; }
+
+/* Fields ----------------------------------------------------------------- */
+
+input[type="text"],
+input[type="search"],
+input[type="password"],
+textarea {
+  width: 100%;
+  font-family: var(--tf-grid);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--tf-ink);
+  caret-color: var(--tf-live);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--tf-rule);
+  border-radius: 0;
+  padding: 0.55rem 0;
+  min-height: var(--tf-tap);
+  appearance: none;
+}
+
+input::placeholder, textarea::placeholder { color: var(--tf-faint); }
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+input:focus, textarea:focus { outline: 0; border-bottom-color: var(--tf-live); }
+textarea { resize: vertical; }
+
+.field {
+  display: block;
+  margin-bottom: 1.4rem;
+}
+
+.field > .label {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--tf-faint);
+  margin-bottom: 0.1rem;
+}
+
+.prose {
+  max-width: 62ch;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--tf-legend);
+}
+
+.alarm-text {
+  color: var(--tf-alarm);
+  font-size: 0.8125rem;
+}
+
+/* Page shell ------------------------------------------------------------- */
+
+.page {
+  /* Capped, never centred: the left edge stays on the gutter at every width. */
+  max-width: 56rem;
+  padding: 1.1rem var(--tf-gutter) 4rem;
+}
+
+.page-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.count {
+  font-size: 0.8125rem;
+  color: var(--tf-faint);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

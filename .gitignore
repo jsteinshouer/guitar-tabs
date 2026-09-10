@@ -53,8 +53,15 @@ ui/dist
 
 # Backend specific
 backend/assets
-backend/.data
+# The SQLite directory must exist for the backend to boot, but its contents never ship.
+!backend/.data/
+backend/.data/*
+!backend/.data/.gitkeep
 backend/coldbox
 backend/modules
 backend/lib
 backend/testbox
+
+# Impeccable design records are kept; verification screenshots are not.
+.impeccable/review/
+.impeccable/questions/
